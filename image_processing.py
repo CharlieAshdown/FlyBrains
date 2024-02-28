@@ -23,7 +23,6 @@ class ImageProcessing:
         only_files = [f for f in listdir(samples_path) if isfile(join(samples_path, f))]
         self.samples = {}
         self.found_larvae = {}
-        self.samples_path = samples_path
         self.epsilon = epsilon
         self.min_samples = min_samples
         for path in only_files:
@@ -33,6 +32,16 @@ class ImageProcessing:
                                       output_color=rawpy.ColorSpace(2), use_camera_wb=True)
                 self.samples[path] = rgb
 
+    def set_dbscan(self, new_epsilon=10, new_min_samples=3):
+        """
+        Sets the values of epsilon and min_samples
+        :param new_epsilon: New value of epsilon
+        :param new_min_samples: New value of min_samples
+        :return:
+        """
+        self.epsilon = new_epsilon
+        self.min_samples = new_min_samples
+
     def _separate_clusters(self, coords, size):
         """
         Performs the DBSCAN algorithm and returns the cluster details
@@ -40,7 +49,10 @@ class ImageProcessing:
         :param coords: The thresholded image as an array of coordinates.
         :return: A dictionary of the image, coordinates and area of the clusters found.
         """
+        start_db = time.time()
         db = DBSCAN(eps=self.epsilon, min_samples=self.min_samples).fit(coords)
+        end_db = time.time()
+        print("DB time: " + str(end_db-start_db))
         labels = db.labels_
 
         unique_labels = set(labels)
@@ -73,6 +85,8 @@ class ImageProcessing:
         _, thresh_b_flies = cv2.threshold(b, 28000, 65535, cv2.THRESH_BINARY)
         _, thresh_b_background = cv2.threshold(b, 50000, 65535, cv2.THRESH_BINARY)
 
+        # thresh_b_flies = cv2.bitwise_xor(thresh_b_flies, thresh_b_background)
+
         thresh_b_flies_coords = np.argwhere(thresh_b_flies == 65535)
         thresh_b_background_coords = np.argwhere(thresh_b_background == 65535)
 
@@ -81,15 +95,32 @@ class ImageProcessing:
         all_background_coords_array = thresh_b_background_coords.tolist()
 
         larvae = {}
+        start_larvae = time.time()
+
+        inter_time = 0
+        if_time = 0
+
         for t, frame in enumerate(clusters["blue"]):
             blue_frame_coords = clusters["blue"][frame]["coords"].tolist()
+            start_inter = time.time()
+
             inter = any(i in blue_frame_coords for i in all_background_coords_array)
+
+            end_inter = time.time()
+            inter_time += end_inter - start_inter
+
+            start_if = time.time()
             if clusters["blue"][frame]["area"] > 2000 and not inter:
                 larvae["frame" + str(t)] = {}
                 larvae["frame" + str(t)]["image"] = clusters["blue"][frame]["image"]
                 larvae["frame" + str(t)]["area"] = clusters["blue"][frame]["area"]
                 larvae["frame" + str(t)]["coords"] = clusters["blue"][frame]["coords"]
-
+            end_if = time.time()
+            if_time += (end_if - start_if)
+        end_larvae = time.time()
+        print("Inter time: " + str(inter_time))
+        print("If time: " + str(if_time))
+        print("Larvae finding time: " + str(end_larvae-start_larvae))
         return larvae
 
     def crop_flies(self, border, save_path):
@@ -151,7 +182,7 @@ class ImageProcessing:
                 g_mask += (larvae["image"] * colour[1]) * 255
                 r_mask += (larvae["image"] * colour[2]) * 255
             image_merge = np.uint8(cv2.merge([r_mask, g_mask, b_mask]))
-            imageio.imsave(save_path + sample + '_mask.png', image_merge)
+            imageio.imsave(save_path + "/" + sample + '_mask.png', image_merge)
 
         end = time.time()
 
@@ -160,6 +191,6 @@ class ImageProcessing:
 
 if __name__ == "__main__":
     start_path = "C:/Users/Charlie/Documents/samples/samples_15_02_2024/test_14"
-    end_path = "C:/Users/Charlie/Documents/samples/samples_15_02_2024/test_14_masks_2/"
+    end_path = "C:/Users/Charlie/Documents/samples/samples_15_02_2024/test_14_masks_2"
     image_processing = ImageProcessing(start_path)
     image_processing.make_mask(end_path)

@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="485b6ea6-0649-464c-a025-7cc3a6a1b598" name="Changes" comment="Initial formatting changes.&#10;- Made the ImageProcessing class&#10;- Transformed the preexisting methods to be internal methods of this object">
+    <list default="true" id="485b6ea6-0649-464c-a025-7cc3a6a1b598" name="Changes" comment="Program testing done and implemented ability to change epsilon and minimum samples for DBSCAN algorithm">
+      <change afterPath="$PROJECT_DIR$/dbscan_test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/image_processing.py" beforeDir="false" afterPath="$PROJECT_DIR$/image_processing.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/image_processing_reformatted.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/image_recognition_ai.py" beforeDir="false" afterPath="$PROJECT_DIR$/image_recognition_ai.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,8 +41,10 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python.dbscan_test.executor": "Run",
     "Python.image_processing.executor": "Run",
     "Python.image_processing_reformatted.executor": "Run",
+    "Python.image_recognition_ai.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "task__1__reformat__image__processing"
@@ -124,7 +127,15 @@
       <option name="project" value="LOCAL" />
       <updated>1709139038005</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Program testing done and implemented ability to change epsilon and minimum samples for DBSCAN algorithm">
+      <option name="closed" value="true" />
+      <created>1709142463541</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1709142463541</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -187,7 +198,8 @@
     <MESSAGE value="image_processing.py first draft" />
     <MESSAGE value="added reformatted file replace original and delete this one once done" />
     <MESSAGE value="Initial formatting changes.&#10;- Made the ImageProcessing class&#10;- Transformed the preexisting methods to be internal methods of this object" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial formatting changes.&#10;- Made the ImageProcessing class&#10;- Transformed the preexisting methods to be internal methods of this object" />
+    <MESSAGE value="Program testing done and implemented ability to change epsilon and minimum samples for DBSCAN algorithm" />
+    <option name="LAST_COMMIT_MESSAGE" value="Program testing done and implemented ability to change epsilon and minimum samples for DBSCAN algorithm" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
