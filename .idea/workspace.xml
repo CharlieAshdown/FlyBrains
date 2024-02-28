@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="485b6ea6-0649-464c-a025-7cc3a6a1b598" name="Changes" comment="image_processing.py first draft">
+    <list default="true" id="485b6ea6-0649-464c-a025-7cc3a6a1b598" name="Changes" comment="added reformatted file replace original and delete this one once done">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/image_processing_reformatted.py" beforeDir="false" afterPath="$PROJECT_DIR$/image_processing_reformatted.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,14 +37,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.image_processing.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "task__1__reformat__image__processing"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.image_processing.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;task__1__reformat__image__processing&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -76,7 +77,15 @@
       <option name="project" value="LOCAL" />
       <updated>1709068559264</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="added reformatted file replace original and delete this one once done">
+      <option name="closed" value="true" />
+      <created>1709072948299</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1709072948299</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -137,7 +146,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="image_processing.py first draft" />
-    <option name="LAST_COMMIT_MESSAGE" value="image_processing.py first draft" />
+    <MESSAGE value="added reformatted file replace original and delete this one once done" />
+    <option name="LAST_COMMIT_MESSAGE" value="added reformatted file replace original and delete this one once done" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
