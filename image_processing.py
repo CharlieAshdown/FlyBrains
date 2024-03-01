@@ -82,17 +82,26 @@ class ImageProcessing:
         :param b: The blue channel from the image
         :return: A dict containing the image area and coordinates of the larvae
         """
-        _, thresh_b_flies = cv2.threshold(b, 28000, 65535, cv2.THRESH_BINARY)
-        _, thresh_b_background = cv2.threshold(b, 50000, 65535, cv2.THRESH_BINARY)
+        _, thresh_b_flies = cv2.threshold(b, 25000, 65535, cv2.THRESH_BINARY)
+        _, thresh_b_background = cv2.threshold(b, 39000, 65535, cv2.THRESH_BINARY)
+
+        """
+        imS = cv2.resize(thresh_b_flies, (812, 608))
+        cv2.imshow("Threshold Blue Flies Image", imS)
+        imS = cv2.resize(thresh_b_background, (812, 608))
+        cv2.imshow("Threshold Blue Background Image", imS)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+        """
 
         # thresh_b_flies = cv2.bitwise_xor(thresh_b_flies, thresh_b_background)
 
         thresh_b_flies_coords = np.argwhere(thresh_b_flies == 65535)
-        thresh_b_background_coords = np.argwhere(thresh_b_background == 65535)
+        # thresh_b_background_coords = np.argwhere(thresh_b_background == 65535)
 
         clusters = {"blue": self._separate_clusters(thresh_b_flies_coords, b.shape)}
 
-        all_background_coords_array = thresh_b_background_coords.tolist()
+        # all_background_coords_array = thresh_b_background_coords.tolist()
 
         larvae = {}
         start_larvae = time.time()
@@ -101,16 +110,19 @@ class ImageProcessing:
         if_time = 0
 
         for t, frame in enumerate(clusters["blue"]):
-            blue_frame_coords = clusters["blue"][frame]["coords"].tolist()
+            # blue_frame_coords = clusters["blue"][frame]["coords"].tolist()
             start_inter = time.time()
 
-            inter = any(i in blue_frame_coords for i in all_background_coords_array)
+            # inter = any(i in blue_frame_coords for i in all_background_coords_array)
+
+            inter = np.any(np.logical_and(clusters["blue"][frame]["image"].astype(np.bool_),
+                                          thresh_b_background.astype(np.bool_)))
 
             end_inter = time.time()
             inter_time += end_inter - start_inter
 
             start_if = time.time()
-            if clusters["blue"][frame]["area"] > 2000 and not inter:
+            if clusters["blue"][frame]["area"] > 1000 and not inter:
                 larvae["frame" + str(t)] = {}
                 larvae["frame" + str(t)]["image"] = clusters["blue"][frame]["image"]
                 larvae["frame" + str(t)]["area"] = clusters["blue"][frame]["area"]
