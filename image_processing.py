@@ -3,6 +3,7 @@ import rawpy
 import imageio
 import cv2
 import time
+import scipy
 from os import listdir
 from os.path import isfile, join
 from sklearn.cluster import DBSCAN
@@ -82,8 +83,12 @@ class ImageProcessing:
         :param b: The blue channel from the image
         :return: A dict containing the image area and coordinates of the larvae
         """
-        _, thresh_b_flies = cv2.threshold(b, 25000, 65535, cv2.THRESH_BINARY)
-        _, thresh_b_background = cv2.threshold(b, 39000, 65535, cv2.THRESH_BINARY)
+        b_background = cv2.GaussianBlur(b, (601, 1201), 51)
+        _, thresh_b_flies = cv2.threshold(b, 0, 65535, cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+        _, thresh_b_background = cv2.threshold(b_background, 14500, 65535, cv2.THRESH_BINARY)
+
+        thresh_b_flies = scipy.signal.medfilt2d(thresh_b_flies, 5)
+        # thresh_b_background = scipy.signal.medfilt2d(thresh_b_background, 5)
 
         """
         imS = cv2.resize(thresh_b_flies, (812, 608))
@@ -93,8 +98,6 @@ class ImageProcessing:
         cv2.waitKey(0)
         cv2.destroyAllWindows()
         """
-
-        # thresh_b_flies = cv2.bitwise_xor(thresh_b_flies, thresh_b_background)
 
         thresh_b_flies_coords = np.argwhere(thresh_b_flies == 65535)
         # thresh_b_background_coords = np.argwhere(thresh_b_background == 65535)
@@ -122,7 +125,7 @@ class ImageProcessing:
             inter_time += end_inter - start_inter
 
             start_if = time.time()
-            if clusters["blue"][frame]["area"] > 1000 and not inter:
+            if clusters["blue"][frame]["area"] > 500 and not inter:
                 larvae["frame" + str(t)] = {}
                 larvae["frame" + str(t)]["image"] = clusters["blue"][frame]["image"]
                 larvae["frame" + str(t)]["area"] = clusters["blue"][frame]["area"]
