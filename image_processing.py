@@ -5,7 +5,7 @@ import cv2
 import time
 import scipy
 from os import listdir
-from os.path import isfile, join
+from os.path import isfile, join, splitext
 from sklearn.cluster import DBSCAN
 
 
@@ -13,13 +13,15 @@ class ImageProcessing:
     """
     Performs the image processing necessary to use the sample data in an AI.
     """
-    def __init__(self, samples_path, epsilon=10, min_samples=3):
+    def __init__(self, samples_path, training_images_path, epsilon=10, min_samples=3, save_images=False):
         """
         Opens the sample images from the folder and stores them in the samples dict
 
         :param samples_path: The path to the sample images folder
+        :param training_images_path: The path to save the images for training
         :param epsilon: The max distance between nodes for DBSCAN
         :param min_samples: The minimum number of samples to determine a class with DBSCAN
+        :param save_images: Whether to save the images as PNGs or not.
         """
         only_files = [f for f in listdir(samples_path) if isfile(join(samples_path, f))]
         self.samples = {}
@@ -31,7 +33,10 @@ class ImageProcessing:
                 rgb = raw.postprocess(no_auto_bright=True, output_bps=16,
                                       demosaic_algorithm=rawpy.DemosaicAlgorithm(3),
                                       output_color=rawpy.ColorSpace(2), use_camera_wb=True)
-                self.samples[path] = rgb
+                self.samples[splitext(path)[0]] = rgb
+                if save_images:
+                    imageio.imsave(training_images_path + "/" + splitext(path)[0] + '.png',
+                                   ((rgb / rgb.max())*255).astype(np.uint8))
 
     def set_dbscan(self, new_epsilon=10, new_min_samples=3):
         """
@@ -75,25 +80,33 @@ class ImageProcessing:
                 results["DBSCAN mask " + str(k)]["area"] = len(class_coords)
         return results
 
-    def find_larvae(self, b):
+    def find_background(self):
+        r, g, b = cv2.split(self.samples["000"])
+        background = cv2.GaussianBlur(b, (1501, 1201), 71)
+        _, thresh_background = cv2.threshold(background, 13000, 65535, cv2.THRESH_BINARY)
+        thresh_background = scipy.signal.medfilt2d(thresh_background, 7)
+        return thresh_background
+
+    def find_larvae(self, b, background):
         """
         Finds the larvae in the image and returns the image, area and coordinates which
         represent the larvae.
 
         :param b: The blue channel from the image
+        :param background: The background of the image
         :return: A dict containing the image area and coordinates of the larvae
         """
-        b_background = cv2.GaussianBlur(b, (601, 1201), 51)
-        _, thresh_b_flies = cv2.threshold(b, 0, 65535, cv2.THRESH_BINARY+cv2.THRESH_OTSU)
-        _, thresh_b_background = cv2.threshold(b_background, 14500, 65535, cv2.THRESH_BINARY)
+        # b_background = cv2.GaussianBlur(b, (1501, 1201), 71)
+        _, thresh_b_flies = cv2.threshold(b, 17000, 65535, cv2.THRESH_BINARY)
+        # _, thresh_b_background = cv2.threshold(b_background, 13000, 65535, cv2.THRESH_BINARY)
 
         thresh_b_flies = scipy.signal.medfilt2d(thresh_b_flies, 5)
-        # thresh_b_background = scipy.signal.medfilt2d(thresh_b_background, 5)
+        # thresh_b_background = scipy.signal.medfilt2d(thresh_b_background, 7)
 
         """
         imS = cv2.resize(thresh_b_flies, (812, 608))
         cv2.imshow("Threshold Blue Flies Image", imS)
-        imS = cv2.resize(thresh_b_background, (812, 608))
+        imS = cv2.resize(background, (812, 608))
         cv2.imshow("Threshold Blue Background Image", imS)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
@@ -119,13 +132,13 @@ class ImageProcessing:
             # inter = any(i in blue_frame_coords for i in all_background_coords_array)
 
             inter = np.any(np.logical_and(clusters["blue"][frame]["image"].astype(np.bool_),
-                                          thresh_b_background.astype(np.bool_)))
+                                          background.astype(np.bool_)))
 
             end_inter = time.time()
             inter_time += end_inter - start_inter
 
             start_if = time.time()
-            if clusters["blue"][frame]["area"] > 500 and not inter:
+            if clusters["blue"][frame]["area"] > 1500 and not inter:
                 larvae["frame" + str(t)] = {}
                 larvae["frame" + str(t)]["image"] = clusters["blue"][frame]["image"]
                 larvae["frame" + str(t)]["area"] = clusters["blue"][frame]["area"]
@@ -186,16 +199,18 @@ class ImageProcessing:
                    "magenta": [1, 0, 1],
                    "yellow": [0, 1, 1]}
         start = time.time()
+        background = self.find_background()
         for sample in self.samples:
             r, g, b = cv2.split(self.samples[sample])
             b_mask = np.zeros(b.shape)
             g_mask = np.zeros(g.shape)
             r_mask = np.zeros(r.shape)
-            self.found_larvae[sample] = self.find_larvae(b)
+            self.found_larvae[sample] = self.find_larvae(b, background)
             for (_, larvae), (_, colour) in zip(self.found_larvae[sample].items(), colours.items()):
                 b_mask += (larvae["image"] * colour[0]) * 255
                 g_mask += (larvae["image"] * colour[1]) * 255
                 r_mask += (larvae["image"] * colour[2]) * 255
+            # back = np.where(b_mask == 0) and np.where(g_mask == 0) and np.where(r_mask == 0)
             image_merge = np.uint8(cv2.merge([r_mask, g_mask, b_mask]))
             imageio.imsave(save_path + "/" + sample + '_mask.png', image_merge)
 
@@ -205,7 +220,8 @@ class ImageProcessing:
 
 
 if __name__ == "__main__":
-    start_path = "C:/Users/Charlie/Documents/samples/samples_15_02_2024/test_14"
-    end_path = "C:/Users/Charlie/Documents/samples/samples_15_02_2024/test_14_masks_2"
-    image_processing = ImageProcessing(start_path)
-    image_processing.make_mask(end_path)
+    start_path = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/test_2"
+    training_path = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/test_2_training/images"
+    mask_path = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/test_2_training/masks"
+    image_processing = ImageProcessing(start_path, training_path, save_images=False)
+    image_processing.make_mask(mask_path)

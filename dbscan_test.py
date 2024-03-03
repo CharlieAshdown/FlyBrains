@@ -2,8 +2,8 @@ import time
 
 from image_processing import ImageProcessing
 
-start_path = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/test_2"
-end_path = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/test_2_mask"
+start_path = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/test_3"
+end_path = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/test_3_mask"
 
 if __name__ == "__main__":
     processing = ImageProcessing(samples_path=start_path, epsilon=10, min_samples=5)
