@@ -83,7 +83,7 @@ class ImageProcessing:
     def find_background(self):
         r, g, b = cv2.split(self.samples["000"])
         background = cv2.GaussianBlur(b, (1501, 1201), 71)
-        _, thresh_background = cv2.threshold(background, 13000, 65535, cv2.THRESH_BINARY)
+        _, thresh_background = cv2.threshold(background, 14000, 65535, cv2.THRESH_BINARY)
         thresh_background = scipy.signal.medfilt2d(thresh_background, 7)
         return thresh_background
 
@@ -220,8 +220,8 @@ class ImageProcessing:
 
 
 if __name__ == "__main__":
-    start_path = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/test_2"
-    training_path = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/test_2_training/images"
-    mask_path = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/test_2_training/masks"
+    start_path = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/test_1"
+    training_path = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/test_1_training/images"
+    mask_path = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/test_1_training/masks"
     image_processing = ImageProcessing(start_path, training_path, save_images=False)
     image_processing.make_mask(mask_path)
