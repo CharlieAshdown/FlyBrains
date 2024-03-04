@@ -1,17 +1,17 @@
 import matplotlib.pyplot as plt
 import torch
-import os
+import time
 from torchvision.io import read_image
 from torchvision.utils import draw_bounding_boxes, draw_segmentation_masks
 from image_recognition_ai import get_transform
 
-model_path = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/test_3_model"
-root = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/test_3_training"
+model_path = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/model/model.pth"
+root = "C:/Users/Charlie/Documents/samples/samples_04_03_2024/training/test_6_training"
 model = torch.load(model_path)
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
 # Test model
-image = read_image(os.path.join(root, "images/000.png"))
+image = read_image(root + "/images/000.png")
 eval_transform = get_transform(train=False)
 
 model.eval()
@@ -33,3 +33,4 @@ output_image = draw_segmentation_masks(output_image, masks, alpha=0.5, colors="b
 
 plt.figure(figsize=(12, 12))
 plt.imshow(output_image.permute(1, 2, 0))
+plt.show()

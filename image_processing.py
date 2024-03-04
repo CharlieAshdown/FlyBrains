@@ -103,14 +103,14 @@ class ImageProcessing:
         thresh_b_flies = scipy.signal.medfilt2d(thresh_b_flies, 5)
         # thresh_b_background = scipy.signal.medfilt2d(thresh_b_background, 7)
 
-        """
+
         imS = cv2.resize(thresh_b_flies, (812, 608))
         cv2.imshow("Threshold Blue Flies Image", imS)
         imS = cv2.resize(background, (812, 608))
         cv2.imshow("Threshold Blue Background Image", imS)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
-        """
+
 
         thresh_b_flies_coords = np.argwhere(thresh_b_flies == 65535)
         # thresh_b_background_coords = np.argwhere(thresh_b_background == 65535)
@@ -220,8 +220,8 @@ class ImageProcessing:
 
 
 if __name__ == "__main__":
-    start_path = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/test_1"
-    training_path = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/test_1_training/images"
-    mask_path = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/test_1_training/masks"
-    image_processing = ImageProcessing(start_path, training_path, save_images=False)
+    start_path = "C:/Users/Charlie/Documents/samples/samples_04_03_2024/test_6"
+    training_path = "C:/Users/Charlie/Documents/samples/samples_04_03_2024/training/test_6_training/images"
+    mask_path = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/test_3_training/masks"
+    image_processing = ImageProcessing(start_path, training_path, save_images=True)
     image_processing.make_mask(mask_path)

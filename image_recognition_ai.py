@@ -113,16 +113,16 @@ if __name__ == '__main__':
 
     # our dataset has two classes only - background and person
     num_classes = 2
-    root = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/test_3_training"
-    model_path = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/test_3_model"
+    root = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/all_training/"
+    model_path = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/model/model.pth"
     # use our dataset and defined transformations
     dataset = LarvaeDataset(root, get_transform(train=True))
     dataset_test = LarvaeDataset(root, get_transform(train=False))
 
     # split the dataset in train and test set
     indices = torch.randperm(len(dataset)).tolist()
-    dataset = torch.utils.data.Subset(dataset, indices[:-20])
-    dataset_test = torch.utils.data.Subset(dataset_test, indices[-20:])
+    dataset = torch.utils.data.Subset(dataset, indices[:-40])
+    dataset_test = torch.utils.data.Subset(dataset_test, indices[-40:])
 
     # define training and validation data loaders
     data_loader = torch.utils.data.DataLoader(
@@ -168,7 +168,7 @@ if __name__ == '__main__':
 
     for epoch in range(num_epochs):
         # train for one epoch, printing every 10 iterations
-        train_one_epoch(model, optimizer, data_loader, device, epoch, print_freq=5)
+        train_one_epoch(model, optimizer, data_loader, device, epoch, print_freq=10)
         # update the learning rate
         lr_scheduler.step()
         # evaluate on the test dataset
