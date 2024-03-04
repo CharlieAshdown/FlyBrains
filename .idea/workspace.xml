@@ -28,12 +28,12 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "CharlieAshdown"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;CharlieAshdown&quot;
   }
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
@@ -54,21 +54,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.dbscan_test.executor": "Run",
-    "Python.image_processing (1).executor": "Run",
-    "Python.image_processing.executor": "Debug",
-    "Python.image_processing_reformatted.executor": "Run",
-    "Python.image_recognition_ai.executor": "Run",
-    "Python.modify_model.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "task__1__reformat__image__processing",
-    "last_opened_file_path": "C:/Users/Charlie/Downloads/coco_utils.py",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.dbscan_test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.image_processing (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.image_processing.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.image_processing_reformatted.executor&quot;: &quot;Run&quot;,
+    &quot;Python.image_recognition_ai.executor&quot;: &quot;Run&quot;,
+    &quot;Python.modify_model.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;task__1__reformat__image__processing&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Charlie/Downloads/coco_utils.py&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Charlie\PycharmProjects\FlyBrains\pytorch_files" />
