@@ -11,7 +11,7 @@ model = torch.load(model_path)
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
 # Test model
-image = read_image(root + "/images/000.png")
+image = read_image(root + "/images/001.png")
 eval_transform = get_transform(train=False)
 
 model.eval()
