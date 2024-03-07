@@ -12,6 +12,7 @@ device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cp
 
 # Test model
 image = read_image(root + "/images/001.png")
+start = time.time()
 eval_transform = get_transform(train=False)
 
 model.eval()
@@ -21,7 +22,8 @@ with torch.no_grad():
     x = x[:3, ...].to(device)
     predictions = model([x, ])
     pred = predictions[0]
-
+end = time.time()
+print("Time taken: " + str(end-start))
 image = (255.0 * (image - image.min()) / (image.max() - image.min())).to(torch.uint8)
 image = image[:3, ...]
 pred_labels = [f"larvae: {score:.3f}" for label, score in zip(pred["labels"], pred["scores"])]
