@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="485b6ea6-0649-464c-a025-7cc3a6a1b598" name="Changes" comment="created first instance of ai to prove data is formatted correctly">
-      <change beforePath="$PROJECT_DIR$/.idea/FlyBrains.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/FlyBrains.iml" afterDir="false" />
+    <list default="true" id="485b6ea6-0649-464c-a025-7cc3a6a1b598" name="Changes" comment="AI now capable of identifying flies.&#10;This can be implemented in image processing if needed to speed up process.&#10;Also need to create utilities function to convert raw files to pdf">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Utilities.py" beforeDir="false" afterPath="$PROJECT_DIR$/Utilities.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/image_processing.py" beforeDir="false" afterPath="$PROJECT_DIR$/image_processing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_ai.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_ai.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,7 +25,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="task_3_yaml_parameters" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -56,15 +58,17 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Python.Utilities.executor&quot;: &quot;Run&quot;,
     &quot;Python.dbscan_test.executor&quot;: &quot;Run&quot;,
     &quot;Python.image_processing (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.image_processing.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.image_processing.executor&quot;: &quot;Run&quot;,
     &quot;Python.image_processing_reformatted.executor&quot;: &quot;Run&quot;,
     &quot;Python.image_recognition_ai.executor&quot;: &quot;Run&quot;,
     &quot;Python.modify_model.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test_ai.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;task__1__reformat__image__processing&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;task__2__develop__ai&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/Charlie/Downloads/coco_utils.py&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
@@ -74,7 +78,29 @@
       <recent name="C:\Users\Charlie\PycharmProjects\FlyBrains\pytorch_files" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.image_processing (1)">
+  <component name="RunManager">
+    <configuration name="Utilities" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="FlyBrains" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Utilities.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="dbscan_test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="FlyBrains" />
       <option name="ENV_FILES" value="" />
@@ -165,10 +191,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.image_processing (1)" />
         <item itemvalue="Python.image_recognition_ai" />
-        <item itemvalue="Python.dbscan_test" />
+        <item itemvalue="Python.Utilities" />
+        <item itemvalue="Python.image_processing (1)" />
         <item itemvalue="Python.image_processing" />
+        <item itemvalue="Python.dbscan_test" />
       </list>
     </recent_temporary>
   </component>
@@ -252,7 +279,47 @@
       <option name="project" value="LOCAL" />
       <updated>1709503971718</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="created first instance of ai to prove data is formatted correctly">
+      <option name="closed" value="true" />
+      <created>1709546414843</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1709546414843</updated>
+    </task>
+    <task id="LOCAL-00010" summary="merged from task_1">
+      <option name="closed" value="true" />
+      <created>1709550816484</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1709550816484</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Added utilities file">
+      <option name="closed" value="true" />
+      <created>1709552552140</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1709552552140</updated>
+    </task>
+    <task id="LOCAL-00012" summary="AI now capable of identifying flies.&#10;This can be implemented in image processing if needed to speed up process.&#10;Also need to create utilities function to convert raw files to pdf">
+      <option name="closed" value="true" />
+      <created>1709584481374</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1709584481374</updated>
+    </task>
+    <task id="LOCAL-00013" summary="AI now capable of identifying flies.&#10;This can be implemented in image processing if needed to speed up process.&#10;Also need to create utilities function to convert raw files to pdf">
+      <option name="closed" value="true" />
+      <created>1709584499267</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1709584499267</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -292,7 +359,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="master" />
+                        <option value="task_2_develop_ai" />
                       </list>
                     </value>
                   </entry>
@@ -319,7 +386,10 @@
     <MESSAGE value="Made a more efficient method to calculate inter" />
     <MESSAGE value="implemented a gaussian blur on background image to ensure the LEDs are always detected" />
     <MESSAGE value="created first instance of ai to prove data is formatted correctly" />
-    <option name="LAST_COMMIT_MESSAGE" value="created first instance of ai to prove data is formatted correctly" />
+    <MESSAGE value="merged from task_1" />
+    <MESSAGE value="Added utilities file" />
+    <MESSAGE value="AI now capable of identifying flies.&#10;This can be implemented in image processing if needed to speed up process.&#10;Also need to create utilities function to convert raw files to pdf" />
+    <option name="LAST_COMMIT_MESSAGE" value="AI now capable of identifying flies.&#10;This can be implemented in image processing if needed to speed up process.&#10;Also need to create utilities function to convert raw files to pdf" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
