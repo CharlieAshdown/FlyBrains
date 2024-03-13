@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="485b6ea6-0649-464c-a025-7cc3a6a1b598" name="Changes" comment="AI now capable of identifying flies.&#10;This can be implemented in image processing if needed to speed up process.&#10;Also need to create utilities function to convert raw files to pdf">
-      <change afterPath="$PROJECT_DIR$/ai_recognition_test.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utilities_test.py" afterDir="false" />
+    <list default="true" id="485b6ea6-0649-464c-a025-7cc3a6a1b598" name="Changes" comment="added sort file">
+      <change afterPath="$PROJECT_DIR$/larvae_tracker.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Utilities.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilities.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_ai.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/utilities.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilities.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,8 +17,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="Python Unit Test" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -60,19 +58,22 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python tests.Python tests for ai_recognition_test.ImageRecognitionTest.test_one_image.executor": "Debug",
     "Python tests.Python tests for test_ai.ImageRecognitionTest.test_one_image.executor": "Run",
-    "Python tests.Python tests for utilities_test.UtilitiesTest.test_video_converter.executor": "Run",
+    "Python tests.Python tests for utilities_test.UtilitiesTest.test_video_converter.executor": "Debug",
     "Python.Utilities.executor": "Run",
     "Python.dbscan_test.executor": "Debug",
     "Python.image_processing (1).executor": "Run",
     "Python.image_processing.executor": "Run",
     "Python.image_processing_reformatted.executor": "Run",
     "Python.image_recognition_ai.executor": "Run",
+    "Python.larvae_tracker.executor": "Run",
     "Python.modify_model.executor": "Run",
     "Python.test_ai.executor": "Run",
+    "Python.utilities.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "task__5__implement__sort",
     "last_opened_file_path": "C:/Users/Charlie/Downloads/coco_utils.py",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
@@ -82,7 +83,7 @@
       <recent name="C:\Users\Charlie\PycharmProjects\FlyBrains\pytorch_files" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests for ai_recognition_test.ImageRecognitionTest.test_one_image">
+  <component name="RunManager">
     <configuration name="image_processing (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="FlyBrains" />
       <option name="ENV_FILES" value="" />
@@ -181,8 +182,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Python tests for ai_recognition_test.ImageRecognitionTest.test_one_image" />
         <item itemvalue="Python tests.Python tests for utilities_test.UtilitiesTest.test_video_converter" />
+        <item itemvalue="Python tests.Python tests for ai_recognition_test.ImageRecognitionTest.test_one_image" />
         <item itemvalue="Python.image_recognition_ai" />
         <item itemvalue="Python.utilities" />
         <item itemvalue="Python.image_processing (1)" />
@@ -317,7 +318,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710330641806</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="added sort file">
+      <option name="closed" value="true" />
+      <created>1710336414388</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1710336414388</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -388,10 +397,22 @@
     <MESSAGE value="Added utilities file" />
     <MESSAGE value="AI now capable of identifying flies.&#10;This can be implemented in image processing if needed to speed up process.&#10;Also need to create utilities function to convert raw files to pdf" />
     <MESSAGE value="Added method for generating masks from AI" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added method for generating masks from AI" />
+    <MESSAGE value="added sort file" />
+    <option name="LAST_COMMIT_MESSAGE" value="added sort file" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/dbscan_test.py</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/ai_recognition_test.py</url>
+          <line>33</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">

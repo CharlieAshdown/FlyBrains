@@ -3,6 +3,7 @@ from os.path import isfile, join, splitext
 import imageio.v2 as io
 import rawpy
 import cv2
+import glob
 
 
 def file_combiner(file_roots, new_file_location):
@@ -62,14 +63,38 @@ def image_converter(original_folder, save_folder, new_format='.png', original_fo
 def video_converter(video_path, frames_path):
     """
     Converts a video file into a series of frames.
-    :param video_path:
-    :return:
+    :param video_path: Path to the video
+    :return: The fps of the video
     """
     vidcap = cv2.VideoCapture(video_path)
+    fps = vidcap.get(cv2.CAP_PROP_FPS)
     success, image = vidcap.read()
     count = 0
     while success:
-        cv2.imwrite(frames_path + "frame%d.png" % count, image)  # save frame as JPEG file
+        cv2.imwrite(frames_path + "frame_" + "{:04d}".format(count) + ".png", image)  # save frame as JPEG file
         success, image = vidcap.read()
-        print('Read a new frame: ', success)
+        # print('Read a new frame: ', success)
         count += 1
+    return fps
+
+
+def video_maker(video_path, frames_path, fps):
+    """
+    Creates a video from a file of frames
+    :param video_path:
+    :param frames_path:
+    :return:
+    """
+    img_array = []
+    size = (0, 0)
+    for filename in glob.glob(frames_path + '*.png'):
+        img = cv2.imread(filename)
+        height, width, layers = img.shape
+        size = (width, height)
+        img_array.append(img)
+
+    out = cv2.VideoWriter(video_path, cv2.VideoWriter_fourcc(*"AVC1"), fps, size)
+
+    for i in range(len(img_array)):
+        out.write(img_array[i])
+    out.release()
