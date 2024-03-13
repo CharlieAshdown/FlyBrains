@@ -5,10 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="485b6ea6-0649-464c-a025-7cc3a6a1b598" name="Changes" comment="AI now capable of identifying flies.&#10;This can be implemented in image processing if needed to speed up process.&#10;Also need to create utilities function to convert raw files to pdf">
+      <change afterPath="$PROJECT_DIR$/ai_recognition_test.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utilities_test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Utilities.py" beforeDir="false" afterPath="$PROJECT_DIR$/Utilities.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/image_processing.py" beforeDir="false" afterPath="$PROJECT_DIR$/image_processing.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/image_recognition_ai.py" beforeDir="false" afterPath="$PROJECT_DIR$/image_recognition_ai.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Utilities.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilities.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_ai.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,6 +20,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Python Script" />
+        <option value="Python Unit Test" />
       </list>
     </option>
   </component>
@@ -56,73 +58,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.Utilities.executor&quot;: &quot;Run&quot;,
-    &quot;Python.dbscan_test.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.image_processing (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.image_processing.executor&quot;: &quot;Run&quot;,
-    &quot;Python.image_processing_reformatted.executor&quot;: &quot;Run&quot;,
-    &quot;Python.image_recognition_ai.executor&quot;: &quot;Run&quot;,
-    &quot;Python.modify_model.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test_ai.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;task__4__use__ai__for__image__processing&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Charlie/Downloads/coco_utils.py&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python tests.Python tests for test_ai.ImageRecognitionTest.test_one_image.executor": "Run",
+    "Python tests.Python tests for utilities_test.UtilitiesTest.test_video_converter.executor": "Run",
+    "Python.Utilities.executor": "Run",
+    "Python.dbscan_test.executor": "Debug",
+    "Python.image_processing (1).executor": "Run",
+    "Python.image_processing.executor": "Run",
+    "Python.image_processing_reformatted.executor": "Run",
+    "Python.image_recognition_ai.executor": "Run",
+    "Python.modify_model.executor": "Run",
+    "Python.test_ai.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/Charlie/Downloads/coco_utils.py",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Charlie\PycharmProjects\FlyBrains\pytorch_files" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.image_recognition_ai">
-    <configuration name="Utilities" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="FlyBrains" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Utilities.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="dbscan_test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="FlyBrains" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/dbscan_test.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Python tests.Python tests for ai_recognition_test.ImageRecognitionTest.test_one_image">
     <configuration name="image_processing (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="FlyBrains" />
       <option name="ENV_FILES" value="" />
@@ -137,28 +97,6 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/image_processing.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="image_processing" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="FlyBrains" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="C:\Users\Charlie\PycharmProjects\FlyBrains\image_processing.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -189,13 +127,65 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="utilities" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="FlyBrains" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="C:\Users\Charlie\PycharmProjects\FlyBrains\utilities.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for ai_recognition_test.ImageRecognitionTest.test_one_image" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="FlyBrains" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;ai_recognition_test.ImageRecognitionTest.test_one_image&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for utilities_test.UtilitiesTest.test_video_converter" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="FlyBrains" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;utilities_test.UtilitiesTest.test_video_converter&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests for ai_recognition_test.ImageRecognitionTest.test_one_image" />
+        <item itemvalue="Python tests.Python tests for utilities_test.UtilitiesTest.test_video_converter" />
         <item itemvalue="Python.image_recognition_ai" />
-        <item itemvalue="Python.Utilities" />
+        <item itemvalue="Python.utilities" />
         <item itemvalue="Python.image_processing (1)" />
-        <item itemvalue="Python.dbscan_test" />
-        <item itemvalue="Python.image_processing" />
       </list>
     </recent_temporary>
   </component>
@@ -319,7 +309,15 @@
       <option name="project" value="LOCAL" />
       <updated>1709584499267</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Added method for generating masks from AI">
+      <option name="closed" value="true" />
+      <created>1710330641806</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1710330641806</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -389,7 +387,8 @@
     <MESSAGE value="merged from task_1" />
     <MESSAGE value="Added utilities file" />
     <MESSAGE value="AI now capable of identifying flies.&#10;This can be implemented in image processing if needed to speed up process.&#10;Also need to create utilities function to convert raw files to pdf" />
-    <option name="LAST_COMMIT_MESSAGE" value="AI now capable of identifying flies.&#10;This can be implemented in image processing if needed to speed up process.&#10;Also need to create utilities function to convert raw files to pdf" />
+    <MESSAGE value="Added method for generating masks from AI" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added method for generating masks from AI" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

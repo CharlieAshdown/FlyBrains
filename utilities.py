@@ -2,6 +2,7 @@ from os import listdir
 from os.path import isfile, join, splitext
 import imageio.v2 as io
 import rawpy
+import cv2
 
 
 def file_combiner(file_roots, new_file_location):
@@ -58,18 +59,17 @@ def image_converter(original_folder, save_folder, new_format='.png', original_fo
             io.imsave(save_folder + str("{:04d}".format(im_num + len(only_files) * title_multiplier)) + new_format, image)
 
 
-if __name__ == "__main__":
-
-    images_roots = ["C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/test_1_training/images/",
-                    "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/test_2_training/images/",
-                    "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/test_3_training/images/",
-                    "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/test_4_training/images/",
-                    "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/test_5_training/images/",
-                    "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/test_6_training/images/",
-                    "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/test_7_training/images/",
-                    "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/test_8_training/images/",
-                    "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/test_9_training/images/"]
-
-    all_images = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/all_training/images/"
-
-    file_combiner(images_roots, all_images)
+def video_converter(video_path, frames_path):
+    """
+    Converts a video file into a series of frames.
+    :param video_path:
+    :return:
+    """
+    vidcap = cv2.VideoCapture(video_path)
+    success, image = vidcap.read()
+    count = 0
+    while success:
+        cv2.imwrite(frames_path + "frame%d.png" % count, image)  # save frame as JPEG file
+        success, image = vidcap.read()
+        print('Read a new frame: ', success)
+        count += 1
