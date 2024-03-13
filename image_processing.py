@@ -7,6 +7,10 @@ import scipy
 from os import listdir
 from os.path import isfile, join, splitext
 from sklearn.cluster import DBSCAN
+import torch
+from torchvision.io import read_image
+from image_recognition_ai import get_transform
+from torchvision.utils import draw_segmentation_masks, save_image
 
 
 class ImageProcessing:
@@ -82,8 +86,8 @@ class ImageProcessing:
 
     def find_background(self):
         r, g, b = cv2.split(self.samples["000"])
-        background = cv2.GaussianBlur(b, (1501, 1201), 71)
-        _, thresh_background = cv2.threshold(background, 14000, 65535, cv2.THRESH_BINARY)
+        background = cv2.GaussianBlur(b, (11, 501), 71)
+        _, thresh_background = cv2.threshold(background, 20000, 65535, cv2.THRESH_BINARY)
         thresh_background = scipy.signal.medfilt2d(thresh_background, 7)
         return thresh_background
 
@@ -97,20 +101,21 @@ class ImageProcessing:
         :return: A dict containing the image area and coordinates of the larvae
         """
         # b_background = cv2.GaussianBlur(b, (1501, 1201), 71)
-        _, thresh_b_flies = cv2.threshold(b, 17000, 65535, cv2.THRESH_BINARY)
+        _, thresh_b_flies = cv2.threshold(b, 19000, 65535, cv2.THRESH_BINARY)
+
         # _, thresh_b_background = cv2.threshold(b_background, 13000, 65535, cv2.THRESH_BINARY)
 
         thresh_b_flies = scipy.signal.medfilt2d(thresh_b_flies, 5)
         # thresh_b_background = scipy.signal.medfilt2d(thresh_b_background, 7)
 
-
+        """
         imS = cv2.resize(thresh_b_flies, (812, 608))
         cv2.imshow("Threshold Blue Flies Image", imS)
         imS = cv2.resize(background, (812, 608))
         cv2.imshow("Threshold Blue Background Image", imS)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
-
+        """
 
         thresh_b_flies_coords = np.argwhere(thresh_b_flies == 65535)
         # thresh_b_background_coords = np.argwhere(thresh_b_background == 65535)
@@ -138,11 +143,11 @@ class ImageProcessing:
             inter_time += end_inter - start_inter
 
             start_if = time.time()
-            if clusters["blue"][frame]["area"] > 1500 and not inter:
+            if clusters["blue"][frame]["area"] > 2000 and not inter:
                 larvae["frame" + str(t)] = {}
                 larvae["frame" + str(t)]["image"] = clusters["blue"][frame]["image"]
                 larvae["frame" + str(t)]["area"] = clusters["blue"][frame]["area"]
-                larvae["frame" + str(t)]["coords"] = clusters["blue"][frame]["coords"]
+                # larvae["frame" + str(t)]["coords"] = clusters["blue"][frame]["coords"]
             end_if = time.time()
             if_time += (end_if - start_if)
         end_larvae = time.time()
@@ -205,8 +210,8 @@ class ImageProcessing:
             b_mask = np.zeros(b.shape)
             g_mask = np.zeros(g.shape)
             r_mask = np.zeros(r.shape)
-            self.found_larvae[sample] = self.find_larvae(b, background)
-            for (_, larvae), (_, colour) in zip(self.found_larvae[sample].items(), colours.items()):
+            found_larvae = self.find_larvae(b, background)
+            for (_, larvae), (_, colour) in zip(found_larvae.items(), colours.items()):
                 b_mask += (larvae["image"] * colour[0]) * 255
                 g_mask += (larvae["image"] * colour[1]) * 255
                 r_mask += (larvae["image"] * colour[2]) * 255
@@ -218,10 +223,44 @@ class ImageProcessing:
 
         print("Time taken: " + str(end - start))
 
+    def make_mask_ai(self, save_path, model_path, images_path):
+        """
+        Creates masks using the trained AI model.
+        :param save_path: Path to save the masks.
+        :param model_path: Path to where the model is stored.
+        :param images_path: Path to the png images
+        :return:
+        """
+        model = torch.load(model_path)
+        device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+        only_files = [f for f in listdir(images_path) if isfile(join(images_path, f))]
+
+        eval_transform = get_transform(train=False)
+
+        model.eval()
+        start = time.time()
+        for path in only_files:
+            image = read_image(images_path + "/" + path)
+            background = torch.zeros_like(image)
+            with torch.no_grad():
+                x = eval_transform(image)
+                # convert RGBA -> RGB and move to device
+                x = x[:3, ...].to(device)
+                predictions = model([x, ])
+                pred = predictions[0]
+            masks = (pred["masks"] > 0.6).squeeze(1)
+            output_mask = draw_segmentation_masks(background, masks, alpha=1)
+            save_image(output_mask.float(), save_path + "/" + splitext(path)[0] + "_mask" + splitext(path)[1],
+                       normalize=True)
+        end = time.time()
+
+        print("Time taken: " + str(end - start))
+
 
 if __name__ == "__main__":
-    start_path = "C:/Users/Charlie/Documents/samples/samples_04_03_2024/test_6"
-    training_path = "C:/Users/Charlie/Documents/samples/samples_04_03_2024/training/test_6_training/images"
-    mask_path = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/test_3_training/masks"
-    image_processing = ImageProcessing(start_path, training_path, save_images=True)
+    start_path = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/test_10"
+    images_path = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/test_10_training/images"
+    mask_path = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/test_10_training/masks"
+    model_path = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/model/model.pth"
+    image_processing = ImageProcessing(start_path, images_path, save_images=False)
     image_processing.make_mask(mask_path)

@@ -110,19 +110,19 @@ if __name__ == '__main__':
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
     if torch.cuda.is_available():
         print("Going fast mode activated!")
-
+    # device = torch.device('cpu')
     # our dataset has two classes only - background and person
     num_classes = 2
     root = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/all_training/"
-    model_path = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/model/model.pth"
+    model_path = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/model_gpu/model.pth"
     # use our dataset and defined transformations
     dataset = LarvaeDataset(root, get_transform(train=True))
     dataset_test = LarvaeDataset(root, get_transform(train=False))
 
     # split the dataset in train and test set
     indices = torch.randperm(len(dataset)).tolist()
-    dataset = torch.utils.data.Subset(dataset, indices[:-40])
-    dataset_test = torch.utils.data.Subset(dataset_test, indices[-40:])
+    dataset = torch.utils.data.Subset(dataset, indices[:-120])
+    dataset_test = torch.utils.data.Subset(dataset_test, indices[-120:])
 
     # define training and validation data loaders
     data_loader = torch.utils.data.DataLoader(
@@ -164,7 +164,7 @@ if __name__ == '__main__':
     )
 
     # let's train it just for 2 epochs
-    num_epochs = 2
+    num_epochs = 5
 
     for epoch in range(num_epochs):
         # train for one epoch, printing every 10 iterations
@@ -175,6 +175,4 @@ if __name__ == '__main__':
         evaluate(model, data_loader_test, device=device)
 
     torch.save(model, model_path)
-    print("That's it!")
-
 
