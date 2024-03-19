@@ -17,7 +17,7 @@ directory = "temp_frames"
 output = "temp_bounded_frames"
 
 # Parent Directory path
-video_name = "test_4.h264"
+video_name = "test_12.h264"
 parent_dir = "C:/Users/Charlie/Documents/samples/samples_11_03_2024/videos/"
 
 if torch.cuda.is_available():
@@ -68,8 +68,8 @@ for image_path in image_paths:
     pred_boxes = pred["boxes"].long()
     output_image = draw_bounding_boxes(image, pred_boxes, pred_labels, colors="red")
 
-    # masks = (pred["masks"] > 0.7).squeeze(1)
-    # output_image = draw_segmentation_masks(output_image, masks, alpha=0.5, colors="blue")
+    masks = (pred["masks"] > 0.7).squeeze(1)
+    output_image = draw_segmentation_masks(output_image, masks, alpha=0.5, colors="blue")
 
     if display:
         ax1.imshow(output_image.permute(1, 2, 0))
@@ -77,6 +77,9 @@ for image_path in image_paths:
 
     boxes = pred["boxes"].cpu().numpy()
     scores = pred["scores"].cpu().numpy()
+
+    # boxes = boxes[scores > 0.7]
+    # scores = scores[scores > 0.7]
 
     detections = np.column_stack((boxes, scores))
     track_larvae = tracker.update(detections)

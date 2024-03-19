@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="485b6ea6-0649-464c-a025-7cc3a6a1b598" name="Changes" comment="added sort file">
-      <change afterPath="$PROJECT_DIR$/larvae_tracker.py" afterDir="false" />
+    <list default="true" id="485b6ea6-0649-464c-a025-7cc3a6a1b598" name="Changes" comment="Got larvae tracking working and saves results from video to video">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/larvae_tracker.py" beforeDir="false" afterPath="$PROJECT_DIR$/larvae_tracker.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utilities.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilities.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -56,34 +56,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python tests.Python tests for ai_recognition_test.ImageRecognitionTest.test_one_image.executor": "Debug",
-    "Python tests.Python tests for test_ai.ImageRecognitionTest.test_one_image.executor": "Run",
-    "Python tests.Python tests for utilities_test.UtilitiesTest.test_video_converter.executor": "Debug",
-    "Python.Utilities.executor": "Run",
-    "Python.dbscan_test.executor": "Debug",
-    "Python.image_processing (1).executor": "Run",
-    "Python.image_processing.executor": "Run",
-    "Python.image_processing_reformatted.executor": "Run",
-    "Python.image_recognition_ai.executor": "Run",
-    "Python.larvae_tracker.executor": "Run",
-    "Python.modify_model.executor": "Run",
-    "Python.test_ai.executor": "Run",
-    "Python.utilities.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "task__5__implement__sort",
-    "last_opened_file_path": "C:/Users/Charlie/Downloads/coco_utils.py",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python tests.Python tests for ai_recognition_test.ImageRecognitionTest.test_one_image.executor&quot;: &quot;Debug&quot;,
+    &quot;Python tests.Python tests for test_ai.ImageRecognitionTest.test_one_image.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for utilities_test.UtilitiesTest.test_video_converter.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.Utilities.executor&quot;: &quot;Run&quot;,
+    &quot;Python.dbscan_test.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.image_processing (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.image_processing.executor&quot;: &quot;Run&quot;,
+    &quot;Python.image_processing_reformatted.executor&quot;: &quot;Run&quot;,
+    &quot;Python.image_recognition_ai.executor&quot;: &quot;Run&quot;,
+    &quot;Python.larvae_tracker.executor&quot;: &quot;Run&quot;,
+    &quot;Python.modify_model.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test_ai.executor&quot;: &quot;Run&quot;,
+    &quot;Python.utilities.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;task__5__implement__sort&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Charlie/Downloads/coco_utils.py&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Charlie\PycharmProjects\FlyBrains\pytorch_files" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.image_processing (1)">
     <configuration name="image_processing (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="FlyBrains" />
       <option name="ENV_FILES" value="" />
@@ -182,11 +182,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.image_processing (1)" />
         <item itemvalue="Python tests.Python tests for utilities_test.UtilitiesTest.test_video_converter" />
         <item itemvalue="Python tests.Python tests for ai_recognition_test.ImageRecognitionTest.test_one_image" />
         <item itemvalue="Python.image_recognition_ai" />
         <item itemvalue="Python.utilities" />
-        <item itemvalue="Python.image_processing (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -326,7 +326,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710336414388</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Got larvae tracking working and saves results from video to video">
+      <option name="closed" value="true" />
+      <created>1710373586385</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1710373586385</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -398,15 +406,12 @@
     <MESSAGE value="AI now capable of identifying flies.&#10;This can be implemented in image processing if needed to speed up process.&#10;Also need to create utilities function to convert raw files to pdf" />
     <MESSAGE value="Added method for generating masks from AI" />
     <MESSAGE value="added sort file" />
-    <option name="LAST_COMMIT_MESSAGE" value="added sort file" />
+    <MESSAGE value="Got larvae tracking working and saves results from video to video" />
+    <option name="LAST_COMMIT_MESSAGE" value="Got larvae tracking working and saves results from video to video" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/dbscan_test.py</url>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/ai_recognition_test.py</url>
           <line>33</line>

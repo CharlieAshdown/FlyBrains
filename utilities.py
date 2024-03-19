@@ -93,7 +93,7 @@ def video_maker(video_path, frames_path, fps):
         size = (width, height)
         img_array.append(img)
 
-    out = cv2.VideoWriter(video_path, cv2.VideoWriter_fourcc(*"AVC1"), fps, size)
+    out = cv2.VideoWriter(video_path, cv2.VideoWriter_fourcc(*"avc1"), fps, size)
 
     for i in range(len(img_array)):
         out.write(img_array[i])
