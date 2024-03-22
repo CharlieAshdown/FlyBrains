@@ -98,12 +98,13 @@ class KalmanBoxTracker(object):
     """
     count = 0
 
-    def __init__(self, bbox):
+    def __init__(self, bbox, mask_id):
         """
         Initialises a tracker using initial bounding box.
         """
         # define constant velocity model
         self.kf = KalmanFilter(dim_x=7, dim_z=4)
+        self.mask_id = mask_id
         self.kf.F = np.array(
             [[1, 0, 0, 0, 1, 0, 0], [0, 1, 0, 0, 0, 1, 0], [0, 0, 1, 0, 0, 0, 1], [0, 0, 0, 1, 0, 0, 0],
              [0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 1]])
@@ -212,7 +213,7 @@ class Sort(object):
         self.trackers = []
         self.frame_count = 0
 
-    def update(self, dets=np.empty((0, 5))):
+    def update(self, mask_ids, dets=np.empty((0, 5))):
         """
         Params:
           dets - a numpy array of detections in the format [[x1,y1,x2,y2,score],[x1,y1,x2,y2,score],...]
@@ -226,6 +227,7 @@ class Sort(object):
         trks = np.zeros((len(self.trackers), 5))
         to_del = []
         ret = []
+        masks = []
         for t, trk in enumerate(trks):
             pos = self.trackers[t].predict()[0]
             trk[:] = [pos[0], pos[1], pos[2], pos[3], 0]
@@ -242,20 +244,21 @@ class Sort(object):
 
         # create and initialise new trackers for unmatched detections
         for i in unmatched_dets:
-            trk = KalmanBoxTracker(dets[i, :])
+            trk = KalmanBoxTracker(dets[i, :], mask_ids[i])
             self.trackers.append(trk)
         i = len(self.trackers)
         for trk in reversed(self.trackers):
             d = trk.get_state()[0]
             if (trk.time_since_update < 1) and (trk.hit_streak >= self.min_hits or self.frame_count <= self.min_hits):
                 ret.append(np.concatenate((d, [trk.id + 1])).reshape(1, -1))  # +1 as MOT benchmark requires positive
+                masks.append(trk.mask_id)
             i -= 1
             # remove dead tracklet
             if (trk.time_since_update > self.max_age):
                 self.trackers.pop(i)
         if (len(ret) > 0):
-            return np.concatenate(ret)
-        return np.empty((0, 5))
+            return np.concatenate(ret), masks
+        return np.empty((0, 5)), [-1]
 
 
 def parse_args():

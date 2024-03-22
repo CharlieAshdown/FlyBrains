@@ -1,6 +1,6 @@
 import unittest
-from utilities import video_converter, file_combiner
-
+from utilities import video_converter, file_combiner, NumpyQueue
+import numpy as np
 
 class UtilitiesTest(unittest.TestCase):
     def test_video_converter(self):
@@ -22,6 +22,21 @@ class UtilitiesTest(unittest.TestCase):
         all_images = "C:/Users/Charlie/Documents/samples/samples_29_02_2024/training/all_training/images/"
 
         file_combiner(images_roots, all_images)
+
+    def test_numpy_queue(self):
+        queue = NumpyQueue(max_size=3)
+
+        a = [[1, 2], [3, 4]]
+        queue.put(a)
+
+        a = [[1, 2], [3, 4]]
+        queue.put(a)
+
+        a = [[1, 2], [3, 4]]
+        queue.put(a)
+
+        mean = queue.mean()
+        distance = queue.speed()
 
 
 if __name__ == '__main__':
