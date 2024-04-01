@@ -126,7 +126,7 @@ class KalmanBoxTracker(object):
         self.hit_streak = 0
         self.age = 0
 
-    def update(self, bbox):
+    def update(self, bbox, mask_id):
         """
         Updates the state vector with observed bbox.
         """
@@ -135,6 +135,7 @@ class KalmanBoxTracker(object):
         self.hits += 1
         self.hit_streak += 1
         self.kf.update(convert_bbox_to_z(bbox))
+        self.mask_id = mask_id
 
     def predict(self):
         """
@@ -240,7 +241,7 @@ class Sort(object):
 
         # update matched trackers with assigned detections
         for m in matched:
-            self.trackers[m[1]].update(dets[m[0], :])
+            self.trackers[m[1]].update(dets[m[0], :], mask_ids[m[0]])
 
         # create and initialise new trackers for unmatched detections
         for i in unmatched_dets:

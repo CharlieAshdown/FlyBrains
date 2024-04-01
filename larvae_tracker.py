@@ -1,6 +1,9 @@
+import cv2
 import numpy as np
 import shutil
 
+from skimage.morphology import skeletonize
+from sklearn import decomposition
 from sort import *
 import matplotlib.pyplot as plt
 import torch
@@ -9,8 +12,7 @@ from torchvision.io import read_image
 from torchvision.utils import draw_bounding_boxes, draw_segmentation_masks, save_image
 from image_recognition_ai import get_transform
 from os.path import isfile, join, splitext
-from queue import Queue
-from utilities import video_converter, video_maker, NumpyQueue, get_angles
+from utilities import video_converter, video_maker, NumpyQueue
 
 
 class LarvaeTracker:
@@ -21,9 +23,10 @@ class LarvaeTracker:
         self.directory = "temp_frames"
         self.output = "temp_bounded_frames"
 
-    def track_video(self, video_name, array_len=5, display=False):
+    def track_video(self, video_name, array_len=10, accuracy=0.9, display=False):
         """
         Tracks the flies in the video.
+        :param accuracy: The prediction accuracy threshold to accept a larva
         :param video_name: Name of the video to be processed
         :param array_len: Length of tracking array
         :param display: Whether to display the frames or not
@@ -78,22 +81,22 @@ class LarvaeTracker:
             pred_boxes = pred["boxes"].long()
             output_image = draw_bounding_boxes(image, pred_boxes, colors="red")
 
-            masks = (pred["masks"] > 0.7).squeeze(1)
+            masks = (pred["masks"] > 0).squeeze(1)
+            boxes = pred["boxes"].cpu().numpy()
+            scores = pred["scores"].cpu().numpy()
 
-            output_image = draw_segmentation_masks(output_image, masks, alpha=0.5, colors="blue")
+            boxes = boxes[scores > accuracy]
+            masks = masks[scores > accuracy, ...]
+            scores = scores[scores > accuracy]
+
+            output_image = draw_segmentation_masks(output_image, (pred["masks"] > 0.7).squeeze(1), alpha=0.5, colors="blue")
 
             if display:
                 ax1.imshow(output_image.permute(1, 2, 0))
                 plt.title(splitext(image_path)[0] + ' Tracked Targets')
 
-            boxes = pred["boxes"].cpu().numpy()
-            scores = pred["scores"].cpu().numpy()
-
-            # boxes = boxes[scores > 0.7]
-            # scores = scores[scores > 0.7]
-
             detections = np.column_stack((boxes, scores))
-            numpy_masks = (pred["masks"].squeeze(1).cpu().numpy() * 255).round().astype(np.uint8)
+            numpy_masks = (masks.cpu().numpy() * 255).round().astype(np.uint8)
             mask_ids = np.arange(0, len(numpy_masks))
             track_larvae, mask_ids = tracker.update(dets=detections, mask_ids=mask_ids)
             boxes = []
@@ -116,7 +119,7 @@ class LarvaeTracker:
             speeds_ordered = []
             labels = []
 
-            angles = get_angles(numpy_masks)
+            angles = self._get_length_diff(numpy_masks[mask_ids])
             ordered_angles = list(np.full((max_len, 1), False).squeeze(1))
             for i, mask_id in enumerate(mask_ids):
                 ordered_angles[mask_id] = angles[i]
@@ -134,13 +137,76 @@ class LarvaeTracker:
             if display:
                 fig.canvas.flush_events()
                 plt.draw()
-                # plt.show()
                 ax1.cla()
 
         video_maker(os.path.join(save_dir, splitext(video_name)[0] + "_tracked" + ".mp4"), output_path + "/", fps)
         shutil.rmtree(frames_path)
         shutil.rmtree(output_path)
         print("done")
+
+    def _get_angles(self,masks, num_splits=2):
+        """
+        Skeletonizes the arrays
+        :param num_splits:
+        :param masks:
+        :return:
+        """
+        display = False
+        angles = []
+        for mask in masks:
+            if display:
+                cv2.imshow("mask", mask)
+                cv2.waitKey(0)
+
+            skeleton_mask = skeletonize(mask)
+            skeleton_mask_coords = np.argwhere(skeleton_mask > 0)
+
+            # PCA
+            pca = decomposition.PCA(n_components=2)
+            pca.fit(skeleton_mask_coords)
+            rotated_skeleton_mask_coords = pca.fit_transform(skeleton_mask_coords)
+
+            skeleton_x, skeleton_y = np.split(rotated_skeleton_mask_coords, [-1], axis=1)
+
+            # Reduce the axis
+            skeleton_x = skeleton_x.squeeze(1)
+            skeleton_y = skeleton_y.squeeze(1)
+
+            skeleton_x_split = np.array_split(skeleton_x, num_splits)
+            skeleton_y_split = np.array_split(skeleton_y, num_splits)
+            angle = 0
+            for split in range(len(skeleton_x_split)):
+                M2 = np.polyfit(skeleton_x_split[split], skeleton_y_split[split], 1)[0]
+                angle += (abs(np.arctan(M2)) * 180 / np.pi)
+            angle = 180 - angle
+            angles.append(angle)
+        return np.array(angles)
+
+    def _get_length_diff(self, masks):
+        display = False
+        length_diff = []
+        for mask in masks:
+            if display:
+                cv2.imshow("mask", mask)
+                cv2.waitKey(0)
+
+            skeleton_mask = skeletonize(mask)
+            skeleton_mask_coords = np.argwhere(skeleton_mask > 0)
+
+            # PCA
+            pca = decomposition.PCA(n_components=2)
+            pca.fit(skeleton_mask_coords)
+            rotated_skeleton_mask_coords = pca.fit_transform(skeleton_mask_coords)
+
+            skeleton_x, skeleton_y = np.split(rotated_skeleton_mask_coords, [-1], axis=1)
+
+            skeleton_x = skeleton_x.squeeze(1)
+            skeleton_y = skeleton_y.squeeze(1)
+
+            end_to_end = np.max(skeleton_x) - np.min(skeleton_x)
+            length = len(rotated_skeleton_mask_coords)
+            length_diff.append(end_to_end / length)
+        return length_diff
 
 
 if __name__ == "__main__":

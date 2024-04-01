@@ -1,11 +1,12 @@
 from os import listdir
 from os.path import isfile, join, splitext
-from skimage.morphology import skeletonize
+
 import imageio.v2 as io
 import rawpy
 import cv2
 import glob
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 def file_combiner(file_roots, new_file_location):
@@ -133,51 +134,4 @@ class NumpyQueue:
         return list(speed)
 
 
-def get_angles(masks, num_splits=2):
-    """
-    Skeletonizes the arrays
-    :param num_splits:
-    :param masks:
-    :return:
-    """
-    angles = []
-    for mask in masks:
-        skeleton = skeletonize(mask)
-        skeleton_coords = np.argwhere(skeleton)
-        skeleton_x, skeleton_y = np.split(skeleton_coords,[-1], axis=1)
-
-        # Reduce the axis
-        skeleton_x = skeleton_x.squeeze(1)
-        skeleton_y = skeleton_y.squeeze(1)
-
-        # The normal aka the linear line of best fit throughout the fly
-        norm_line = np.polyfit(skeleton_x, skeleton_y, 1)
-        M1 = norm_line[0]
-
-        norm_angle = np.arctan(M1)
-        rot_mat = np.array([[np.cos(norm_angle), -np.sin(norm_angle)],
-                            [np.sin(norm_angle), np.cos(norm_angle)]])
-
-        mask_data_points = np.argwhere(mask > 0.7)
-        rotated_mask_data_points = np.dot(mask_data_points, rot_mat).round().astype(np.uint8)
-        rotated_mask = np.zeros(mask.shape)
-        rotated_mask[rotated_mask_data_points] = 255
-
-        skeleton = skeletonize(rotated_mask)
-        skeleton_coords = np.argwhere(skeleton)
-        skeleton_x, skeleton_y = np.split(skeleton_coords,[-1], axis=1)
-
-        # Reduce the axis
-        skeleton_x = skeleton_x.squeeze(1)
-        skeleton_y = skeleton_y.squeeze(1)
-
-        skeleton_x_split = np.array_split(skeleton_x, num_splits)
-        skeleton_y_split = np.array_split(skeleton_y, num_splits)
-        angle = 0
-        for split in range(len(skeleton_x_split)):
-            M2 = np.polyfit(skeleton_x_split[split], skeleton_y_split[split], 1)[0]
-            angle += (abs(np.arctan(M2))*180/np.pi)
-        angle = 180 - angle
-        angles.append(angle)
-    return np.array(angles)
 
