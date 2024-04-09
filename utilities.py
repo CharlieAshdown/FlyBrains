@@ -6,7 +6,7 @@ import rawpy
 import cv2
 import glob
 import numpy as np
-import matplotlib.pyplot as plt
+import csv
 
 
 def file_combiner(file_roots, new_file_location):
@@ -103,30 +103,82 @@ def video_maker(video_path, frames_path, fps):
     out.release()
 
 
-class NumpyQueue:
-    def __init__(self, max_size=5):
+def get_led_timings(path, fps):
+    timing_files = glob.glob(f"{path}/*.txt")
+    if not timing_files:
+        return None, None
+    LED_timing_file = None
+    video_timing_file = None
+    for file in timing_files:
+        if "LED" in file:
+            LED_timing_file = file
+        if "video" in file:
+            video_timing_file = file
+    if not LED_timing_file or not video_timing_file:
+        return None, None
+    with open(LED_timing_file, 'r') as f:
+        LED_timing_data = list(csv.reader(f, delimiter="\t"))[0]
+        LED_timing_data = dict([i.replace(' ', '').split(':') for i in LED_timing_data])
+        LED_timing_data = {k: float(v) for k, v in LED_timing_data.items()}
+
+    with open(video_timing_file, 'r') as f:
+        video_timing_data = list(csv.reader(f, delimiter="\t"))[0]
+        video_timing_data = dict([i.replace(' ', '').split(':') for i in video_timing_data])
+        video_timing_data = {k: float(v) for k, v in video_timing_data.items()}
+
+    led_on = round((LED_timing_data["LEDsON"] - video_timing_data["VideoON"])*fps)
+    led_off = round((LED_timing_data["LEDsOFF"] - video_timing_data["VideoON"])*fps)
+    return led_on, led_off
+
+
+class Queue:
+    """
+    Implements a FIFO queue with a maximum size with numpy functionality
+    """
+    def __init__(self, max_size=100):
+        """
+        Initialise the queue
+        :param max_size: Sets the maximum size of the array
+        """
         self.list = []
         self.array = np.array([])
         self.max_size = max_size
 
     def is_full(self):
+        """
+        Determines whether the array is full
+        :return: True if full, False if not
+        """
         if len(self.array) == self.max_size:
             return True
         else:
             return False
 
     def put(self, value):
+        """
+        Puts values into array.
+        :param value: Must be list
+        :return:
+        """
         if len(self.list) == self.max_size:
             del self.list[0]
         self.list.append(value)
         self.array = np.array(self.list)
 
     def mean(self):
+        """
+        Calculates the mean
+        :return: Mean value for each portion of the list
+        """
         return list(np.mean(self.array, axis=0))
 
     def speed(self):
-        min = np.min(self.array, axis=0)
-        max = np.max(self.array, axis=0)
+        """
+        Calculates the speed over the array
+        :return: Speed value for each portion of the list
+        """
+        min = np.nanmin(self.array, axis=0)
+        max = np.nanmax(self.array, axis=0)
         if len(max.shape) > 1:
             speed = np.linalg.norm((np.subtract(max, min) / self.max_size), axis=1)
         else:
@@ -134,4 +186,19 @@ class NumpyQueue:
         return list(speed)
 
 
+class new_set(set):
+    """
+    Adding the add and subtract functionality to sets.
+    """
+    def __add__(self, other):
+        if type(other) is tuple:
+            return new_set(x + y for x, y in zip(self, other))
+        elif type(other) is int or type(other) is float:
+            return new_set(x + other for x in self)
+
+    def __sub__(self, other):
+        if type(other) is tuple:
+            return new_set(x - y for x, y in zip(self, other))
+        elif type(other) is int or type(other) is float:
+            return new_set(x - other for x in self)
 

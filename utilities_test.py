@@ -1,5 +1,5 @@
 import unittest
-from utilities import video_converter, file_combiner, NumpyQueue
+from utilities import video_converter, file_combiner, Queue, get_led_timings
 import numpy as np
 
 class UtilitiesTest(unittest.TestCase):
@@ -24,7 +24,7 @@ class UtilitiesTest(unittest.TestCase):
         file_combiner(images_roots, all_images)
 
     def test_numpy_queue(self):
-        queue = NumpyQueue(max_size=3)
+        queue = Queue(max_size=3)
 
         a = [[1, 2], [3, 4]]
         queue.put(a)
@@ -37,6 +37,10 @@ class UtilitiesTest(unittest.TestCase):
 
         mean = queue.mean()
         distance = queue.speed()
+
+    def test_get_led_timings(self):
+        path = "D:/Flybrains/samples/samples_25_03_2024/test_06"
+        get_led_timings(path, 20)
 
 
 if __name__ == '__main__':

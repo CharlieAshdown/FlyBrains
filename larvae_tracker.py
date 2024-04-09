@@ -1,35 +1,42 @@
-import cv2
-import numpy as np
 import shutil
+import torch
+import csv
+import warnings
+import cv2
 
 from skimage.morphology import skeletonize
 from sklearn import decomposition
 from sort import *
-import matplotlib.pyplot as plt
-import torch
-import time
+from os.path import splitext
 from torchvision.io import read_image
 from torchvision.utils import draw_bounding_boxes, draw_segmentation_masks, save_image
+from torchvision.transforms import Pad, CenterCrop
+from torchvision.transforms.functional import to_pil_image, pil_to_tensor
 from image_recognition_ai import get_transform
-from os.path import isfile, join, splitext
-from utilities import video_converter, video_maker, NumpyQueue
+from utilities import video_converter, video_maker, Queue, new_set, get_led_timings
 
 
 class LarvaeTracker:
-    def __init__(self, model, parent_dir, save_dir):
+    def __init__(self, model, parent_dir, save_dir, csv_write=False):
         self.model = model
         self.parent_dir = parent_dir
         self.save_dir = save_dir
         self.directory = "temp_frames"
         self.output = "temp_bounded_frames"
+        self.led_on, self.led_off = None, None
+        self.csv_write = csv_write
 
-    def track_video(self, video_name, array_len=10, accuracy=0.9, display=False):
+        warnings.filterwarnings('ignore', r'All-NaN slice encountered')
+
+    def track_video(self, video_name, array_len=10, accuracy=0.9, display=False, pad_amount=10, save_video=True):
         """
         Tracks the flies in the video.
-        :param accuracy: The prediction accuracy threshold to accept a larva
         :param video_name: Name of the video to be processed
         :param array_len: Length of tracking array
+        :param accuracy: The prediction accuracy threshold to accept a larva
         :param display: Whether to display the frames or not
+        :param pad_amount: The size of the video border
+        :param save_video: Whether to save the final video (change to False if testing)
         :return:
         """
 
@@ -38,6 +45,16 @@ class LarvaeTracker:
         save_dir = self.save_dir
         directory = self.directory
         output = self.output
+
+        if self.csv_write:
+            fields = ["time", "larvae", "speed", "rotation_speed", "is_led_on", "has_led_been_on"]
+            num_larvae_fields = ["time", "num_larvae"]
+            with open(f"{splitext(video_name)[0]}.csv", 'w', newline='') as f:
+                writer = csv.DictWriter(f, fieldnames=fields)
+                writer.writeheader()
+            with open(f"{splitext(video_name)[0]}_larvae_count_{int(accuracy*100)}_accuracy.csv", 'w', newline='') as f:
+                writer = csv.DictWriter(f, fieldnames=num_larvae_fields)
+                writer.writeheader()
 
         # Path
         frames_path = os.path.join(parent_dir, directory)
@@ -49,11 +66,11 @@ class LarvaeTracker:
             os.mkdir(output_path)
 
         fps = video_converter(os.path.join(parent_dir, video_name), frames_path + "/")
-
-        tracker = Sort(iou_threshold=0.1)
+        self.led_on, self.led_off = get_led_timings(self.parent_dir, fps)
+        tracker = Sort(iou_threshold=0.7)
 
         device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
-        colours = np.random.rand(32, 3)  # used only for display
+        colours = np.random.rand(32, 3)
 
         if display:
             plt.ion()
@@ -61,10 +78,10 @@ class LarvaeTracker:
             ax1 = fig.add_subplot(111, aspect='equal')
 
         image_paths = list(sorted(os.listdir(frames_path)))
-        center_coords = NumpyQueue(max_size=array_len)
-        rotation_angles = NumpyQueue(max_size=array_len)
+        center_coords = Queue(max_size=array_len)
+        rotation_angles = Queue(max_size=array_len)
         max_len = 32
-        for image_path in image_paths:
+        for image_num, image_path in enumerate(image_paths):
             image = read_image(frames_path + "/" + image_path)
             eval_transform = get_transform(train=False)
 
@@ -98,11 +115,12 @@ class LarvaeTracker:
             detections = np.column_stack((boxes, scores))
             numpy_masks = (masks.cpu().numpy() * 255).round().astype(np.uint8)
             mask_ids = np.arange(0, len(numpy_masks))
+
             track_larvae, mask_ids = tracker.update(dets=detections, mask_ids=mask_ids)
             boxes = []
             if len(track_larvae) > max_len:
                 max_len = len(track_larvae)
-            centers = list(np.full((max_len, 2), False))
+            centers = list(np.full((max_len, 2), np.nan))
             colour = []
             for d in track_larvae:
                 d = d.astype(np.int32)
@@ -119,8 +137,8 @@ class LarvaeTracker:
             speeds_ordered = []
             labels = []
 
-            angles = self._get_length_diff(numpy_masks[mask_ids])
-            ordered_angles = list(np.full((max_len, 1), False).squeeze(1))
+            angles = self._get_angle_pca(numpy_masks[mask_ids])
+            ordered_angles = list(np.full((max_len, 1), np.nan).squeeze(1))
             for i, mask_id in enumerate(mask_ids):
                 ordered_angles[mask_id] = angles[i]
             rotation_angles.put(ordered_angles)
@@ -130,23 +148,64 @@ class LarvaeTracker:
             for d in track_larvae:
                 speeds_ordered.append(speeds[round(d[4] % max_len)])
                 labels.append(d[4])
-            labels = [f"larvae: {label:.3f}  Speed {speed:.3f} Rotation speed {rotation_speed:.3f}" for label, speed, rotation_speed in zip(labels,  speeds_ordered, rotation_speeds)]
+
+            if self.csv_write:
+                data_lines = []
+                if not self.led_on:
+                    is_led_on = 0
+                    has_led_been_on = 0
+                elif self.led_on <= image_num <= self.led_off:
+                    is_led_on = 1
+                    has_led_been_on = 1
+                elif self.led_on <= image_num:
+                    is_led_on = 0
+                    has_led_been_on = 1
+                else:
+                    is_led_on = 0
+                    has_led_been_on = 0
+                for label, speed, rotation_speed in zip(labels, speeds_ordered, rotation_speeds):
+                    data_lines.append({"time": f"{(image_num/fps):.3f}",
+                                       "larvae": label,
+                                       "speed": f"{speed:.3f}",
+                                       "rotation_speed": f"{rotation_speed:.3f}",
+                                       "is_led_on": is_led_on,
+                                       "has_led_been_on": has_led_been_on})
+                with open(f"{splitext(video_name)[0]}.csv", 'a', newline='') as f:
+                    writer = csv.DictWriter(f, fieldnames=fields)
+                    writer.writerows(data_lines)
+
+            labels = [f"larvae: {label} \n speed: {speed:.3f} \n rotation_speed: {rotation_speed:.3f}" for
+                      label, speed, rotation_speed in zip(labels, speeds_ordered, rotation_speeds)]
+
+            if self.csv_write:
+                with open(f"{splitext(video_name)[0]}_larvae_count_{int(accuracy*100)}_accuracy.csv", 'a', newline='') as f:
+                    writer = csv.DictWriter(f, fieldnames=num_larvae_fields)
+                    writer.writerow({"time": f"{(image_num/fps):.3f}", "num_larvae": len(labels)})
+
             output_image = draw_bounding_boxes(output_image, boxes, labels, colors=colour, width=3)
+
+            if self.led_on is not None and self.led_on <= image_num <= self.led_off:
+                output_image = to_pil_image(output_image)
+                crop = CenterCrop((new_set(output_image.size) - 20)[::-1])
+                output_image = crop(output_image)
+                pad = Pad(pad_amount, fill=(255, 0, 0), padding_mode="constant")
+                output_image = pad(output_image)
+                output_image = pil_to_tensor(output_image)
 
             save_image(output_image.float(), os.path.join(output_path + "/", image_path), normalize=True)
             if display:
                 fig.canvas.flush_events()
                 plt.draw()
                 ax1.cla()
-
-        video_maker(os.path.join(save_dir, splitext(video_name)[0] + "_tracked" + ".mp4"), output_path + "/", fps)
+        if save_video:
+            video_maker(os.path.join(save_dir, splitext(video_name)[0] + "_tracked" + ".mp4"), output_path + "/", fps)
         shutil.rmtree(frames_path)
         shutil.rmtree(output_path)
         print("done")
 
-    def _get_angles(self,masks, num_splits=2):
+    def _get_angles(self, masks, num_splits=2):
         """
-        Skeletonizes the arrays
+        Gets the angles of rotation for the flies
         :param num_splits:
         :param masks:
         :return:
@@ -182,7 +241,12 @@ class LarvaeTracker:
             angles.append(angle)
         return np.array(angles)
 
-    def _get_length_diff(self, masks):
+    def _get_angle_pca(self, masks):
+        """
+        Determines the angle of rotation of the larvae using PCA
+        :param masks: Array of masks to find angle from
+        :return: Array containing the angle of rotation for each mask
+        """
         display = False
         length_diff = []
         for mask in masks:
@@ -204,22 +268,29 @@ class LarvaeTracker:
             skeleton_y = skeleton_y.squeeze(1)
 
             end_to_end = np.max(skeleton_x) - np.min(skeleton_x)
-            length = len(rotated_skeleton_mask_coords)
-            length_diff.append(end_to_end / length)
+            length = np.max(skeleton_y) - np.min(skeleton_y)
+            length_diff.append(np.arctan(length/end_to_end) * 180 / np.pi)
         return length_diff
 
 
 if __name__ == "__main__":
-    video_name = "test_12.h264"
-    parent_dir = "larvae_tracking_videos/unprocessed_video/"
-    save_dir = "larvae_tracking_videos/processed_video_test/"
-
     if torch.cuda.is_available():
         model_path = "ai_models/model_gpu.pth"
     else:
         model_path = "ai_models/model_cpu.pth"
 
-    model = torch.load(model_path)
+    tests = ["test_002", "test_003", "test_004", "test_005", "test_006",
+             "test_007", "test_008", "test_009", "test_010", "test_011",
+             "test_012"]
 
-    larvae_tracker = LarvaeTracker(model, parent_dir, save_dir)
-    larvae_tracker.track_video(video_name)
+    # test_number = "test_010"
+    for test_number in tests:
+        root = "D:/Flybrains/samples/samples_11_03_2024/videos"
+        parent_dir = f"{root}/{test_number}"
+        save_dir = parent_dir
+        video_name = glob.glob(f"{parent_dir}/*.h264")[0]
+
+        model = torch.load(model_path)
+
+        larvae_tracker = LarvaeTracker(model, parent_dir, save_dir, csv_write=True)
+        larvae_tracker.track_video(video_name, array_len=10, accuracy=0.75, save_video=False)
