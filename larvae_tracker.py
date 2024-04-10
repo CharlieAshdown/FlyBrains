@@ -186,7 +186,7 @@ class LarvaeTracker:
 
             if self.led_on is not None and self.led_on <= image_num <= self.led_off:
                 output_image = to_pil_image(output_image)
-                crop = CenterCrop((new_set(output_image.size) - 20)[::-1])
+                crop = CenterCrop((new_set(output_image.size) - 20))
                 output_image = crop(output_image)
                 pad = Pad(pad_amount, fill=(255, 0, 0), padding_mode="constant")
                 output_image = pad(output_image)

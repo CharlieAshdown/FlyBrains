@@ -26,8 +26,8 @@ def file_combiner(file_roots, new_file_location):
     return
 
 
-def image_converter(original_folder, save_folder, new_format='.png', original_format=None,  title_multiplier=False,
-                    raw_processing_args=None):
+def image_converter(original_folder, save_folder, new_format='.png', original_format=None,
+                    title_multiplier=False, raw_processing_args=None):
     """
     Mass converts images to a different type.
     :param original_folder: The path to take the images from.
@@ -81,11 +81,12 @@ def video_converter(video_path, frames_path):
     return fps
 
 
-def video_maker(video_path, frames_path, fps):
+def video_maker(video_path, frames_path, fps, encoder="avc1"):
     """
     Creates a video from a file of frames
     :param video_path:
     :param frames_path:
+    :param encoder: video encoder
     :return:
     """
     img_array = []
@@ -96,7 +97,7 @@ def video_maker(video_path, frames_path, fps):
         size = (width, height)
         img_array.append(img)
 
-    out = cv2.VideoWriter(video_path, cv2.VideoWriter_fourcc(*"avc1"), fps, size)
+    out = cv2.VideoWriter(video_path, cv2.VideoWriter_fourcc(*encoder), fps, size)
 
     for i in range(len(img_array)):
         out.write(img_array[i])
@@ -191,14 +192,67 @@ class new_set(set):
     Adding the add and subtract functionality to sets.
     """
     def __add__(self, other):
-        if type(other) is tuple:
-            return new_set(x + y for x, y in zip(self, other))
-        elif type(other) is int or type(other) is float:
+        if type(other) is int or type(other) is float:
             return new_set(x + other for x in self)
+        elif type(other) is set or tuple:
+            return new_set(x + y for x, y in zip(self, other))
 
     def __sub__(self, other):
-        if type(other) is tuple:
-            return new_set(x - y for x, y in zip(self, other))
-        elif type(other) is int or type(other) is float:
+        if type(other) is int or type(other) is float:
             return new_set(x - other for x in self)
+        elif type(other) is set or tuple:
+            return new_set(x - y for x, y in zip(self, other))
 
+
+def automatic_brightness_and_contrast(image, alpha=None, beta=None, clip_hist_percent=1):
+    """
+    Automatic brightness and contrast optimization with optional histogram clipping
+    :param image:
+    :param alpha:
+    :param beta:
+    :param clip_hist_percent:
+    :return:
+    """
+    if not alpha:
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+        # Calculate grayscale histogram
+        hist = cv2.calcHist([gray], [0], None, [256], [0, 256])
+        hist_size = len(hist)
+
+        # Calculate cumulative distribution from the histogram
+        accumulator = []
+        accumulator.append(float(hist[0]))
+        for index in range(1, hist_size):
+            accumulator.append(accumulator[index - 1] + float(hist[index]))
+
+        # Locate points to clip
+        maximum = accumulator[-1]
+        clip_hist_percent *= (maximum / 100.0)
+        clip_hist_percent /= 2.0
+
+        # Locate left cut
+        minimum_gray = 0
+        while accumulator[minimum_gray] < clip_hist_percent:
+            minimum_gray += 1
+
+        # Locate right cut
+        maximum_gray = hist_size - 1
+        while accumulator[maximum_gray] >= (maximum - clip_hist_percent):
+            maximum_gray -= 1
+
+        # Calculate alpha and beta values
+        alpha = 255 / (maximum_gray - minimum_gray)
+        beta = -minimum_gray * alpha
+
+        '''
+        # Calculate new histogram with desired range and show histogram 
+        new_hist = cv2.calcHist([gray],[0],None,[256],[minimum_gray,maximum_gray])
+        plt.plot(hist)
+        plt.plot(new_hist)
+        plt.xlim([0,256])
+        plt.show()
+        '''
+
+    auto_result = cv2.convertScaleAbs(image, alpha=alpha, beta=beta)
+    return auto_result, alpha, beta
