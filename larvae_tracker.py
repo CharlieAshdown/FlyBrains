@@ -293,4 +293,4 @@ if __name__ == "__main__":
         model = torch.load(model_path)
 
         larvae_tracker = LarvaeTracker(model, parent_dir, save_dir, csv_write=True)
-        larvae_tracker.track_video(video_name, array_len=10, accuracy=0.75, save_video=False)
+        larvae_tracker.track_video(video_name, array_len=10, accuracy=0.9, save_video=False)

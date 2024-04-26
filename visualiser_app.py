@@ -2,8 +2,6 @@ import os
 import sys
 from PyQt5.QtCore import QDir, QUrl
 from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QPushButton, QHBoxLayout
-from PyQt5.QtMultimediaWidgets import QVideoWidget
-from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
 from video_visualiser import video_visualiser
 
 

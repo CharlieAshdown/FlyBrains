@@ -1,5 +1,6 @@
 from os import listdir
 from os.path import isfile, join, splitext
+from skimage.filters import threshold_otsu
 
 import imageio.v2 as io
 import rawpy
@@ -7,6 +8,8 @@ import cv2
 import glob
 import numpy as np
 import csv
+import matplotlib.pyplot as plt
+
 
 
 def file_combiner(file_roots, new_file_location):
@@ -204,12 +207,12 @@ class new_set(set):
             return new_set(x - y for x, y in zip(self, other))
 
 
-def automatic_brightness_and_contrast(image, alpha=None, beta=None, clip_hist_percent=1):
+def automatic_brightness_and_contrast(image, alpha=None, beta=None, clip_hist_percent=5):
     """
     Automatic brightness and contrast optimization with optional histogram clipping
-    :param image:
-    :param alpha:
-    :param beta:
+    :param image: The image to be brightened
+    :param alpha: Alpha value, None if needs to be calculated
+    :param beta: Beta value, None if needs to be calculated
     :param clip_hist_percent:
     :return:
     """
@@ -237,22 +240,24 @@ def automatic_brightness_and_contrast(image, alpha=None, beta=None, clip_hist_pe
             minimum_gray += 1
 
         # Locate right cut
-        maximum_gray = hist_size - 1
-        while accumulator[maximum_gray] >= (maximum - clip_hist_percent):
-            maximum_gray -= 1
+        maximum_gray = int(threshold_otsu(gray))
 
         # Calculate alpha and beta values
         alpha = 255 / (maximum_gray - minimum_gray)
         beta = -minimum_gray * alpha
 
-        '''
+
         # Calculate new histogram with desired range and show histogram 
         new_hist = cv2.calcHist([gray],[0],None,[256],[minimum_gray,maximum_gray])
-        plt.plot(hist)
-        plt.plot(new_hist)
+        fig, (axs1, axs2) = plt.subplots(1, 2)
+        axs1.plot(hist)
+        axs1.set_title("Original Histogram")
+        axs2.plot(new_hist)
+        axs2.set_title("New Histogram")
         plt.xlim([0,256])
         plt.show()
-        '''
+        plt.waitforbuttonpress()
+
 
     auto_result = cv2.convertScaleAbs(image, alpha=alpha, beta=beta)
     return auto_result, alpha, beta
