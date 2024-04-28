@@ -172,15 +172,15 @@ class LarvaeTracker:
                 for label, speed, rotation_speed in zip(labels, speeds_ordered, rotation_speeds):
                     data_lines.append({"time": f"{(image_num/fps):.3f}",
                                        "larvae": label,
-                                       "speed": f"{speed:.3f} mm/s",
-                                       "rotation_speed": f"{rotation_speed:.3f} degrees/second",
+                                       "speed (mm/s)": f"{speed:.3f} mm/s",
+                                       "rotation_speed (degree/s)": f"{rotation_speed:.3f} degrees/second",
                                        "is_led_on": is_led_on,
                                        "has_led_been_on": has_led_been_on})
                 with open(f"{splitext(video_name)[0]}.csv", 'a', newline='') as f:
                     writer = csv.DictWriter(f, fieldnames=fields)
                     writer.writerows(data_lines)
 
-            labels = [f"larvae: {label} \n speed: {speed:.3f} \n rotation_speed: {rotation_speed:.3f}" for
+            labels = [f"larvae: {label} \n speed: {speed:.3f} (mm/s) \n rotation_speed: {rotation_speed:.3f} (degree/s)"  for
                       label, speed, rotation_speed in zip(labels, speeds_ordered, rotation_speeds)]
 
             if self.csv_write:
