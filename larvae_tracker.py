@@ -23,9 +23,9 @@ class LarvaeTracker:
         self.save_dir = save_dir
         self.directory = "temp_frames"
         self.output = "temp_bounded_frames"
+        self.video_path = None
         self.led_on, self.led_off = None, None
         self.csv_write = csv_write
-
         warnings.filterwarnings('ignore', r'All-NaN slice encountered')
 
     def track_video(self, video_name, array_len=10, accuracy=0.9, display=False, pad_amount=10, save_video=True):
@@ -199,9 +199,13 @@ class LarvaeTracker:
                 ax1.cla()
         if save_video:
             video_maker(os.path.join(save_dir, splitext(video_name)[0] + "_tracked" + ".mp4"), output_path + "/", fps)
+            self.video_path = os.path.join(save_dir, splitext(video_name)[0] + "_tracked" + ".mp4")
         shutil.rmtree(frames_path)
         shutil.rmtree(output_path)
         print("done")
+
+    def get_video_path(self):
+        return self.video_path
 
     def _get_angles(self, masks, num_splits=2):
         """
