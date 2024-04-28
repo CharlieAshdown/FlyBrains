@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="485b6ea6-0649-464c-a025-7cc3a6a1b598" name="Changes" comment="added processed ai training images">
-      <change afterPath="$PROJECT_DIR$/UI/FlyBrains_Main.ui" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flybrains_app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/FlyBrains.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/FlyBrains.iml" afterDir="false" />
+    <list default="true" id="485b6ea6-0649-464c-a025-7cc3a6a1b598" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/install_dependencies.bat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/larvae_tracker.py" beforeDir="false" afterPath="$PROJECT_DIR$/larvae_tracker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/visualiser_app.py" beforeDir="false" afterPath="$PROJECT_DIR$/visualiser_app.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -90,6 +86,7 @@
     "Python.modify_model.executor": "Run",
     "Python.test_ai.executor": "Run",
     "Python.utilities.executor": "Run",
+    "Python.visualiser_app.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
@@ -485,7 +482,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714145876878</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="Added user interface for larvae tracker">
+      <option name="closed" value="true" />
+      <created>1714324844668</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1714324844668</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -565,7 +570,8 @@
     <MESSAGE value="added video files" />
     <MESSAGE value="added unprocessed ai training images" />
     <MESSAGE value="added processed ai training images" />
-    <option name="LAST_COMMIT_MESSAGE" value="added processed ai training images" />
+    <MESSAGE value="Added user interface for larvae tracker" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added user interface for larvae tracker" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
