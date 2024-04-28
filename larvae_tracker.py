@@ -1,4 +1,6 @@
 import shutil
+
+import numpy as np
 import torch
 import csv
 import warnings
@@ -27,6 +29,7 @@ class LarvaeTracker:
         self.led_on, self.led_off = None, None
         self.csv_write = csv_write
         warnings.filterwarnings('ignore', r'All-NaN slice encountered')
+        self.pixels_per_mm = 26
 
     def track_video(self, video_name, array_len=10, accuracy=0.9, display=False, pad_amount=10, save_video=True):
         """
@@ -47,7 +50,7 @@ class LarvaeTracker:
         output = self.output
 
         if self.csv_write:
-            fields = ["time", "larvae", "speed", "rotation_speed", "is_led_on", "has_led_been_on"]
+            fields = ["time", "larvae", "speed (mm/s)", "rotation_speed (degree/s)", "is_led_on", "has_led_been_on"]
             num_larvae_fields = ["time", "num_larvae"]
             with open(f"{splitext(video_name)[0]}.csv", 'w', newline='') as f:
                 writer = csv.DictWriter(f, fieldnames=fields)
@@ -78,7 +81,7 @@ class LarvaeTracker:
             ax1 = fig.add_subplot(111, aspect='equal')
 
         image_paths = list(sorted(os.listdir(frames_path)))
-        center_coords = Queue(max_size=array_len)
+        distances = Queue(max_size=array_len)
         rotation_angles = Queue(max_size=array_len)
         max_len = 32
         for image_num, image_path in enumerate(image_paths):
@@ -131,9 +134,11 @@ class LarvaeTracker:
                 boxes.append([d[0], d[1], d[2], d[3]])
                 centers[d[4] % max_len] = [(d[2] - d[0])/2, (d[3] - d[1])/2]
                 colour.append(tuple((colours[d[4] % 32, :]*255).astype(np.int32)))
+            distance = [np.sqrt(x*x + y*y) for x, y in centers]
             boxes = torch.tensor(boxes)
-            center_coords.put(centers)
-            speeds = center_coords.speed()
+            distances.put(distance)
+            speeds = distances.speed()
+            speeds = [x / self.pixels_per_mm * fps for x in speeds]
             speeds_ordered = []
             labels = []
 
@@ -143,6 +148,7 @@ class LarvaeTracker:
                 ordered_angles[mask_id] = angles[i]
             rotation_angles.put(ordered_angles)
             rotation_speeds = rotation_angles.speed()
+            rotation_speeds = [x * fps for x in rotation_speeds]
             rotation_speeds = rotation_speeds[:np.max(mask_ids)+1]
 
             for d in track_larvae:
@@ -166,8 +172,8 @@ class LarvaeTracker:
                 for label, speed, rotation_speed in zip(labels, speeds_ordered, rotation_speeds):
                     data_lines.append({"time": f"{(image_num/fps):.3f}",
                                        "larvae": label,
-                                       "speed": f"{speed:.3f}",
-                                       "rotation_speed": f"{rotation_speed:.3f}",
+                                       "speed": f"{speed:.3f} mm/s",
+                                       "rotation_speed": f"{rotation_speed:.3f} degrees/second",
                                        "is_led_on": is_led_on,
                                        "has_led_been_on": has_led_been_on})
                 with open(f"{splitext(video_name)[0]}.csv", 'a', newline='') as f:
