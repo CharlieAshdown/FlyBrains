@@ -5,6 +5,7 @@ import torch
 import csv
 import warnings
 import cv2
+from time import time as t
 
 from skimage.morphology import skeletonize
 from sklearn import decomposition
@@ -49,6 +50,7 @@ class LarvaeTracker:
         directory = self.directory
         output = self.output
 
+        # This section initialised the csv file for writing if required
         if self.csv_write:
             fields = ["time", "larvae", "speed (mm/s)", "rotation_speed (degree/s)", "is_led_on", "has_led_been_on"]
             num_larvae_fields = ["time", "num_larvae"]
@@ -59,22 +61,35 @@ class LarvaeTracker:
                 writer = csv.DictWriter(f, fieldnames=num_larvae_fields)
                 writer.writeheader()
 
-        # Path
+        # This is path where the frame are temporarily stored after conversion from video
         frames_path = os.path.join(parent_dir, directory)
         if not os.path.exists(frames_path):
             os.mkdir(frames_path)
 
+        # This is the path where the process frames are stored before being converted to video
         output_path = os.path.join(parent_dir, output)
         if not os.path.exists(output_path):
             os.mkdir(output_path)
 
+        # video_converter saves the frames of the video to a temporary file and saves the fps
+
+        video_conv_start = t()
         fps = video_converter(os.path.join(parent_dir, video_name), frames_path + "/")
+        video_conv_end = t()
+
+        # Gets the times when the Optogenetic LEDs turn on and off
         self.led_on, self.led_off = get_led_timings(self.parent_dir, fps)
+
+        # Creates an instance of the SORT tracker
         tracker = Sort(iou_threshold=0.7)
 
+        # Set the device --> cuda if the system has an available GPU
         device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+
+        # Array of r, g, b values which represents the colours of the larvae mask
         colours = np.random.rand(32, 3)
 
+        # Initialises the plot if the user wants to display each frame as it is being processed
         if display:
             plt.ion()
             fig = plt.figure()
@@ -172,8 +187,8 @@ class LarvaeTracker:
                 for label, speed, rotation_speed in zip(labels, speeds_ordered, rotation_speeds):
                     data_lines.append({"time": f"{(image_num/fps):.3f}",
                                        "larvae": label,
-                                       "speed (mm/s)": f"{speed:.3f} mm/s",
-                                       "rotation_speed (degree/s)": f"{rotation_speed:.3f} degrees/second",
+                                       "speed (mm/s)": f"{speed:.3f}",
+                                       "rotation_speed (degree/s)": f"{rotation_speed:.3f}",
                                        "is_led_on": is_led_on,
                                        "has_led_been_on": has_led_been_on})
                 with open(f"{splitext(video_name)[0]}.csv", 'a', newline='') as f:
@@ -208,7 +223,8 @@ class LarvaeTracker:
             self.video_path = os.path.join(save_dir, splitext(video_name)[0] + "_tracked" + ".mp4")
         shutil.rmtree(frames_path)
         shutil.rmtree(output_path)
-        print("done")
+        del tracker
+        print(f"Video conversion to frames run time: {video_conv_end - video_conv_start}")
 
     def get_video_path(self):
         return self.video_path

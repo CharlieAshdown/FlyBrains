@@ -5,6 +5,7 @@ import sys
 import os
 import glob
 import torch
+from time import time as t
 
 from larvae_tracker import LarvaeTracker
 
@@ -77,22 +78,25 @@ class Ui(QtWidgets.QMainWindow):
 
             larvae_tracker = LarvaeTracker(model, file, file,
                                            csv_write= self.create_csv_box.isChecked())
+            start_time = t()
             larvae_tracker.track_video(video_name,
                                        array_len=self.array_len_slider.value(),
                                        accuracy=float(self.lct_slider.value())/100,
                                        save_video= self.save_video_box.isChecked())
+            end_time = t()
             if self.play_video_box.isChecked():
                 self.play(larvae_tracker.video_path)
             del larvae_tracker
             self.filepaths.pop(0)
             self.file_label.setText(f"File Names = {str([os.path.split(u)[-1] for u in self.filepaths])}")
+            print(f"Entire program run time: {end_time-start_time}")
 
     def play(self, video):
         os.startfile(video)
 
-
-app = QtWidgets.QApplication(sys.argv)
-window = Ui()
-app.exec()
+if __name__ == "__main__":
+    app = QtWidgets.QApplication(sys.argv)
+    window = Ui()
+    app.exec()
 
 

@@ -5,8 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="485b6ea6-0649-464c-a025-7cc3a6a1b598" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/install_dependencies.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/R_PI_Files/DataCollection.ui" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/R_PI_Files/IR_LED_VIDEO.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/R_PI_Files/Optogenetic_LEDs.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/R_PI_Files/collect_data.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/R_PI_Files/config.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UI/Video_Visualiser_Main.ui" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flybrains_app.py" beforeDir="false" afterPath="$PROJECT_DIR$/flybrains_app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/larvae_tracker.py" beforeDir="false" afterPath="$PROJECT_DIR$/larvae_tracker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utilities.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilities.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/video_visualiser.py" beforeDir="false" afterPath="$PROJECT_DIR$/video_visualiser.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/visualiser_app.py" beforeDir="false" afterPath="$PROJECT_DIR$/visualiser_app.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -31,7 +40,7 @@
     </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="task-7_fully_implement_larvae_tracking" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -86,24 +95,26 @@
     "Python.modify_model.executor": "Run",
     "Python.test_ai.executor": "Run",
     "Python.utilities.executor": "Run",
+    "Python.video_visualiser.executor": "Run",
     "Python.visualiser_app.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/Charlie/PycharmProjects/FlyBrains/larvae_tracking_videos/unprocessed_video",
+    "git-widget-placeholder": "task__10__make__the__existing__code__readable",
+    "last_opened_file_path": "C:/Users/Charlie/PycharmProjects/FlyBrains/UI",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Charlie\PycharmProjects\FlyBrains\UI" />
       <recent name="C:\Users\Charlie\PycharmProjects\FlyBrains\larvae_tracking_videos\unprocessed_video" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Charlie\PycharmProjects\FlyBrains\pytorch_files" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration name="image_processing (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.visualiser_app">
+    <configuration name="flybrains_app" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="FlyBrains" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -116,7 +127,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/image_processing.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/flybrains_app.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -125,7 +136,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="larvae_tracker" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="video_visualiser" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="FlyBrains" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -138,7 +149,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/larvae_tracker.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/video_visualiser.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -147,19 +158,26 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for ai_recognition_test.ImageRecognitionTest.test_one_image" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="visualiser_app" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="FlyBrains" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;ai_recognition_test.ImageRecognitionTest.test_one_image&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/visualiser_app.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
     <configuration name="Python tests for utilities_test.UtilitiesTest.test_numpy_queue" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
@@ -194,11 +212,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.visualiser_app" />
+        <item itemvalue="Python.video_visualiser" />
+        <item itemvalue="Python.flybrains_app" />
         <item itemvalue="Python tests.Python tests for utilities_test.UtilitiesTest.test_video_converter" />
         <item itemvalue="Python tests.Python tests for utilities_test.UtilitiesTest.test_numpy_queue" />
-        <item itemvalue="Python tests.Python tests for ai_recognition_test.ImageRecognitionTest.test_one_image" />
-        <item itemvalue="Python.larvae_tracker" />
-        <item itemvalue="Python.image_processing (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -490,7 +508,31 @@
       <option name="project" value="LOCAL" />
       <updated>1714324844668</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="added batch file to install dependencies">
+      <option name="closed" value="true" />
+      <created>1714327555200</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1714327555200</updated>
+    </task>
+    <task id="LOCAL-00036" summary="converted to real units">
+      <option name="closed" value="true" />
+      <created>1714332471827</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1714332471827</updated>
+    </task>
+    <task id="LOCAL-00037" summary="added units to video">
+      <option name="closed" value="true" />
+      <created>1714335134157</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1714335134157</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -571,7 +613,10 @@
     <MESSAGE value="added unprocessed ai training images" />
     <MESSAGE value="added processed ai training images" />
     <MESSAGE value="Added user interface for larvae tracker" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added user interface for larvae tracker" />
+    <MESSAGE value="added batch file to install dependencies" />
+    <MESSAGE value="converted to real units" />
+    <MESSAGE value="added units to video" />
+    <option name="LAST_COMMIT_MESSAGE" value="added units to video" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

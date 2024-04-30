@@ -2,6 +2,8 @@ import os
 import glob
 import shutil
 import sys
+
+import cv2
 import torch
 import numpy as np
 from utilities import video_converter, get_led_timings, new_set, automatic_brightness_and_contrast, video_maker
@@ -12,10 +14,12 @@ from torchvision.transforms import Pad, CenterCrop
 from torchvision.transforms.functional import to_pil_image, pil_to_tensor
 
 
-def video_visualiser(path=None):
+def video_visualiser(path=None, brighten=True, black_and_white=False, save_images=False):
     """
     Increases brightness of video and add border when optogenetic LEDs on
     :param path: Path to video
+    :param brighten: Whether to brighten the image
+    :param black_and_white: Whether to convert image to black and white
     :return: Path to formatted video or None if failed
     """
     if not path:
@@ -33,11 +37,11 @@ def video_visualiser(path=None):
     video_name = glob.glob(f"{parent_dir}/*.h264")[0]
 
     # Path
-    frames_path = os.path.join(parent_dir, "temp_frames")
+    frames_path = os.path.join(parent_dir, "frames")
     if not os.path.exists(frames_path):
         os.mkdir(frames_path)
 
-    output_path = os.path.join(parent_dir, "temp_bounded_frames")
+    output_path = os.path.join(parent_dir, "bounded_frames")
     if not os.path.exists(output_path):
         os.mkdir(output_path)
 
@@ -47,12 +51,23 @@ def video_visualiser(path=None):
 
     image_paths = list(sorted(os.listdir(frames_path)))
     for image_num, image_path in enumerate(image_paths):
-        image_t = read_image(frames_path + "/" + image_path)
-        image = image_t.numpy()
-        image = np.transpose(image, (1, 2, 0))
-        image, alpha, beta = automatic_brightness_and_contrast(image, alpha=alpha, beta=beta)
-        image = np.transpose(image, (2, 0, 1))
-        image = torch.from_numpy(image)
+        image = read_image(frames_path + "/" + image_path)
+
+        if black_and_white:
+            image = image.numpy()
+            image = np.transpose(image, (1, 2, 0))
+            r, g, b = cv2.split(image)
+            image = np.dstack((r, r, r))
+            image = np.transpose(image, (2, 0, 1))
+            image = torch.from_numpy(image)
+
+        if brighten:
+            image = image.numpy()
+            image = np.transpose(image, (1, 2, 0))
+            image, alpha, beta = automatic_brightness_and_contrast(image, alpha=alpha, beta=beta)
+            image = np.transpose(image, (2, 0, 1))
+            image = torch.from_numpy(image)
+
         if led_on is not None and led_on <= image_num <= led_off:
             image = to_pil_image(image)
             crop = CenterCrop((new_set(image.size) - 20))
@@ -60,15 +75,23 @@ def video_visualiser(path=None):
             pad = Pad(pad_amount, fill=(255, 0, 0), padding_mode="constant")
             image = pad(image)
             image = pil_to_tensor(image)
+
         save_image(image.float(), os.path.join(output_path + "/", image_path), normalize=True)
 
     video_maker(os.path.join(save_dir, splitext(video_name)[0] + "_brightened" + ".mp4"),
                 output_path + "/", fps, encoder="mp4v")
-    shutil.rmtree(frames_path)
-    shutil.rmtree(output_path)
+    if not save_images:
+        shutil.rmtree(frames_path)
+        shutil.rmtree(output_path)
+    if black_and_white:
+        return os.path.join(save_dir, splitext(video_name)[0] + "_single_channel" + ".mp4")
+    elif brighten:
+        return os.path.join(save_dir, splitext(video_name)[0] + "_brightened" + ".mp4")
 
-    return os.path.join(save_dir, splitext(video_name)[0] + "_brightened" + ".mp4")
 
+if __name__ == "__main__":
 
-if __name__ == "main":
-    video_visualiser()
+    video_visualiser(path="D:/Flybrains/samples/samples_25_03_2024/test_05/",
+                     brighten=True,
+                     black_and_white=True,
+                     save_images=True)

@@ -1,28 +1,42 @@
-import os
+from PyQt6 import QtWidgets, uic
+from PyQt6.QtWidgets import QFileDialog
+from PyQt6.QtCore import QDir
 import sys
-from PyQt6.QtCore import QDir, QUrl
-from PyQt6.QtWidgets import QMainWindow, QApplication, QFileDialog, QPushButton, QHBoxLayout
+import os
+import glob
+import torch
+from time import time as t
+
 from video_visualiser import video_visualiser
 
 
-class MainWidget(QMainWindow):
-    OpenFile = 0
-    OpenFiles = 1
-    OpenDirectory = 2
-    SaveFile = 3
-    def __init__(self, mode=2):
-        super().__init__()
-        layout = QHBoxLayout()
-        self.setLayout(layout)
-        self.browser_mode = mode
-        self.filter_name = 'All files (*.*)'
+class Ui(QtWidgets.QMainWindow):
+    def __init__(self):
+        super(Ui, self).__init__() # Call the inherited classes __init__ method
+        uic.loadUi('UI/Video_Visualiser_Main.ui', self) # Load the .ui file
+        self.filepaths = []
         self.dirpath = QDir.currentPath()
-        self.setWindowTitle("Drag and Drop")
-        self.resize(720, 480)
-        self.setAcceptDrops(True)
-        self.button = QPushButton('Search')
-        self.button.clicked.connect(self.getFile)
-        self.setCentralWidget(self.button)
+        self.dragDrop = self.findChild(QtWidgets.QWidget, 'dragdropwidget')
+
+        self.array_len_slider = self.findChild(QtWidgets.QSlider, 'horizontalSlider')
+        self.lct_slider = self.findChild(QtWidgets.QSlider, 'horizontalSlider_2')
+
+        self.array_len_label = self.findChild(QtWidgets.QLabel, 'label')
+        self.lct_label = self.findChild(QtWidgets.QLabel, 'label_2')
+        self.file_label = self.findChild(QtWidgets.QLabel, 'label_3')
+
+        self.dragDrop.setAcceptDrops(True)
+        self.file_button = self.dragDrop.findChild(QtWidgets.QPushButton, 'pushButton_2')
+        self.file_button.clicked.connect(self.getFile)
+
+        self.sim_button = self.findChild(QtWidgets.QPushButton, 'pushButton')
+        self.sim_button.clicked.connect(self.run_sim)
+
+        self.save_images_box = self.findChild(QtWidgets.QCheckBox, 'checkBox')
+        self.brighten_box = self.findChild(QtWidgets.QCheckBox, 'checkBox_2')
+        self.one_channel_box = self.findChild(QtWidgets.QCheckBox, 'checkBox_3')
+
+        self.show()  # Show the GUI
 
     def dragEnterEvent(self, event):
         if event.mimeData().hasUrls():
@@ -31,50 +45,27 @@ class MainWidget(QMainWindow):
             event.ignore()
 
     def dropEvent(self, event):
-        files = [u.toLocalFile() for u in event.mimeData().urls()]
-        for f in files:
-            video_path = video_visualiser(f)
-            if video_path is not None:
-                self.play(video_path)
+        self.filepaths += [u.toLocalFile() for u in event.mimeData().urls()]
+        self.file_label.setText(f"File Names = {str([os.path.split(u)[-1] for u in self.filepaths])}")
 
     def getFile(self):
-        self.filepaths = []
-
-        if self.browser_mode == MainWidget.OpenFile:
-            self.filepaths.append(QFileDialog.getOpenFileName(self, caption='Choose File',
-                                                              directory=self.dirpath,
-                                                              filter=self.filter_name)[0])
-        elif self.browser_mode == MainWidget.OpenFiles:
-            self.filepaths.extend(QFileDialog.getOpenFileNames(self, caption='Choose Files',
-                                                               directory=self.dirpath,
-                                                               filter=self.filter_name)[0])
-        elif self.browser_mode == MainWidget.OpenDirectory:
-            self.filepaths.append(QFileDialog.getExistingDirectory(self, caption='Choose Directory',
+        self.filepaths.append(QFileDialog.getExistingDirectory(self, caption='Choose Directory',
                                                                    directory=self.dirpath))
-        else:
-            options = QFileDialog.Options()
-            if sys.platform == 'darwin':
-                options |= QFileDialog.DontUseNativeDialog
-            self.filepaths.append(QFileDialog.getSaveFileName(self, caption='Save/Save As',
-                                                              directory=self.dirpath,
-                                                              filter=self.filter_name,
-                                                              options=options)[0])
+        self.file_label.setText(f"File Names = {str([os.path.split(u)[-1] for u in self.filepaths])}")
+
+    def run_sim(self):
         if len(self.filepaths) == 0:
             return
-        elif len(self.filepaths) == 1:
-            video_path = video_visualiser(self.filepaths[0])
-            if video_path is not None:
-                self.play(video_path)
-        else:
-            return
-
-    def play(self, video):
-        os.startfile(video)
+        for file in self.filepaths:
+            video_visualiser(path=file,
+                             brighten=self.brighten_box.isChecked(),
+                             black_and_white=self.one_channel_box.isChecked(),
+                             save_images=self.save_images_box.isChecked())
 
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    ui = MainWidget()
-    ui.show()
-    sys.exit(app.exec())
+if __name__ == "__main__":
+    app = QtWidgets.QApplication(sys.argv)
+    window = Ui()
+    app.exec()
+
 
