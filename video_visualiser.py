@@ -77,9 +77,13 @@ def video_visualiser(path=None, brighten=True, black_and_white=False, save_image
             image = pil_to_tensor(image)
 
         save_image(image.float(), os.path.join(output_path + "/", image_path), normalize=True)
+    if black_and_white:
+        video_maker(os.path.join(save_dir, splitext(video_name)[0] + "_single_channel" + ".mp4"),
+                    output_path + "/", fps, encoder="mp4v")
+    elif brighten:
+        video_maker(os.path.join(save_dir, splitext(video_name)[0] + "_brightened" + ".mp4"),
+                    output_path + "/", fps, encoder="mp4v")
 
-    video_maker(os.path.join(save_dir, splitext(video_name)[0] + "_brightened" + ".mp4"),
-                output_path + "/", fps, encoder="mp4v")
     if not save_images:
         shutil.rmtree(frames_path)
         shutil.rmtree(output_path)
