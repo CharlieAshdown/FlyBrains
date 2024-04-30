@@ -14,7 +14,7 @@ from torchvision.transforms import Pad, CenterCrop
 from torchvision.transforms.functional import to_pil_image, pil_to_tensor
 
 
-def video_visualiser(path=None, brighten=True, black_and_white=False, save_images=False):
+def video_visualiser(path=None, brighten=True, black_and_white=False, save_images=False, channel="r"):
     """
     Increases brightness of video and add border when optogenetic LEDs on
     :param path: Path to video
@@ -57,7 +57,12 @@ def video_visualiser(path=None, brighten=True, black_and_white=False, save_image
             image = image.numpy()
             image = np.transpose(image, (1, 2, 0))
             r, g, b = cv2.split(image)
-            image = np.dstack((r, r, r))
+            if channel == "g":
+                image = np.dstack((g, g, g))
+            elif channel == "b":
+                image = np.dstack((g, g, g))
+            else:
+                image = np.dstack((r, r, r))
             image = np.transpose(image, (2, 0, 1))
             image = torch.from_numpy(image)
 
