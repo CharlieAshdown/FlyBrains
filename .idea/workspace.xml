@@ -5,18 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="485b6ea6-0649-464c-a025-7cc3a6a1b598" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/R_PI_Files/DataCollection.ui" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/R_PI_Files/IR_LED_VIDEO.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/R_PI_Files/Optogenetic_LEDs.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/R_PI_Files/collect_data.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/R_PI_Files/config.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UI/Video_Visualiser_Main.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flybrains_app.py" beforeDir="false" afterPath="$PROJECT_DIR$/flybrains_app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/larvae_tracker.py" beforeDir="false" afterPath="$PROJECT_DIR$/larvae_tracker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilities.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/video_visualiser.py" beforeDir="false" afterPath="$PROJECT_DIR$/video_visualiser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualiser_app.py" beforeDir="false" afterPath="$PROJECT_DIR$/visualiser_app.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,35 +65,36 @@
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Python tests.Python tests for ai_recognition_test.ImageRecognitionTest.test_one_image.executor": "Debug",
-    "Python tests.Python tests for ai_recognition_test.ImageRecognitionTest.test_video.executor": "Debug",
-    "Python tests.Python tests for test_ai.ImageRecognitionTest.test_one_image.executor": "Run",
-    "Python tests.Python tests for utilities_test.UtilitiesTest.test_numpy_queue.executor": "Debug",
-    "Python tests.Python tests for utilities_test.UtilitiesTest.test_video_converter.executor": "Debug",
-    "Python.Utilities.executor": "Run",
-    "Python.dbscan_test.executor": "Debug",
-    "Python.flybrains_app.executor": "Run",
-    "Python.image_processing (1).executor": "Run",
-    "Python.image_processing.executor": "Run",
-    "Python.image_processing_reformatted.executor": "Run",
-    "Python.image_recognition_ai.executor": "Run",
-    "Python.larvae_tracker.executor": "Run",
-    "Python.modify_model.executor": "Run",
-    "Python.test_ai.executor": "Run",
-    "Python.utilities.executor": "Run",
-    "Python.video_visualiser.executor": "Run",
-    "Python.visualiser_app.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "task__10__make__the__existing__code__readable",
-    "last_opened_file_path": "C:/Users/Charlie/PycharmProjects/FlyBrains/UI",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Python tests.Python tests for ai_recognition_test.ImageRecognitionTest.test_one_image.executor&quot;: &quot;Debug&quot;,
+    &quot;Python tests.Python tests for ai_recognition_test.ImageRecognitionTest.test_video.executor&quot;: &quot;Debug&quot;,
+    &quot;Python tests.Python tests for test_ai.ImageRecognitionTest.test_one_image.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for utilities_test.UtilitiesTest.test_numpy_queue.executor&quot;: &quot;Debug&quot;,
+    &quot;Python tests.Python tests for utilities_test.UtilitiesTest.test_video_converter.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.Utilities.executor&quot;: &quot;Run&quot;,
+    &quot;Python.dbscan_test.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.flybrains_app.executor&quot;: &quot;Run&quot;,
+    &quot;Python.image_processing (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.image_processing.executor&quot;: &quot;Run&quot;,
+    &quot;Python.image_processing_reformatted.executor&quot;: &quot;Run&quot;,
+    &quot;Python.image_recognition_ai.executor&quot;: &quot;Run&quot;,
+    &quot;Python.larvae_tracker.executor&quot;: &quot;Run&quot;,
+    &quot;Python.modify_model.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test_ai.executor&quot;: &quot;Run&quot;,
+    &quot;Python.utilities.executor&quot;: &quot;Run&quot;,
+    &quot;Python.video_visualiser.executor&quot;: &quot;Run&quot;,
+    &quot;Python.visualiser_app.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;task__10__make__the__existing__code__readable&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Charlie/PycharmProjects/FlyBrains/UI&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Charlie\PycharmProjects\FlyBrains\UI" />
@@ -212,11 +203,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests for utilities_test.UtilitiesTest.test_video_converter" />
+        <item itemvalue="Python tests.Python tests for utilities_test.UtilitiesTest.test_numpy_queue" />
         <item itemvalue="Python.visualiser_app" />
         <item itemvalue="Python.video_visualiser" />
         <item itemvalue="Python.flybrains_app" />
-        <item itemvalue="Python tests.Python tests for utilities_test.UtilitiesTest.test_video_converter" />
-        <item itemvalue="Python tests.Python tests for utilities_test.UtilitiesTest.test_numpy_queue" />
       </list>
     </recent_temporary>
   </component>
@@ -532,7 +523,39 @@
       <option name="project" value="LOCAL" />
       <updated>1714335134157</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="visualiser app now allows user to select channel">
+      <option name="closed" value="true" />
+      <created>1714494702080</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1714494702080</updated>
+    </task>
+    <task id="LOCAL-00039" summary="now resets file paths">
+      <option name="closed" value="true" />
+      <created>1714494809550</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1714494809550</updated>
+    </task>
+    <task id="LOCAL-00040" summary="now resets file paths">
+      <option name="closed" value="true" />
+      <created>1714495356867</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1714495356867</updated>
+    </task>
+    <task id="LOCAL-00041" summary="now resets file paths">
+      <option name="closed" value="true" />
+      <created>1714495530297</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1714495530297</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -593,7 +616,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="image_processing.py first draft" />
     <MESSAGE value="added reformatted file replace original and delete this one once done" />
     <MESSAGE value="Initial formatting changes.&#10;- Made the ImageProcessing class&#10;- Transformed the preexisting methods to be internal methods of this object" />
     <MESSAGE value="Program testing done and implemented ability to change epsilon and minimum samples for DBSCAN algorithm" />
@@ -616,7 +638,10 @@
     <MESSAGE value="added batch file to install dependencies" />
     <MESSAGE value="converted to real units" />
     <MESSAGE value="added units to video" />
-    <option name="LAST_COMMIT_MESSAGE" value="added units to video" />
+    <MESSAGE value="change video visualiser app" />
+    <MESSAGE value="visualiser app now allows user to select channel" />
+    <MESSAGE value="now resets file paths" />
+    <option name="LAST_COMMIT_MESSAGE" value="now resets file paths" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

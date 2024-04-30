@@ -94,6 +94,7 @@ class Ui(QtWidgets.QMainWindow):
     def play(self, video):
         os.startfile(video)
 
+
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     window = Ui()
