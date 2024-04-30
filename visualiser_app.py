@@ -68,6 +68,7 @@ class Ui(QtWidgets.QMainWindow):
                              black_and_white=self.one_channel_box.isChecked(),
                              save_images=self.save_images_box.isChecked(),
                              channel=self.choose_rgb.currentText().lower())
+        self.filepaths = []
 
 
 if __name__ == "__main__":
