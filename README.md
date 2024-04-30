@@ -32,7 +32,8 @@ Now if you run "flybrains_app.py" you should be able to see the user interface
 ![image](https://github.com/CharlieAshdown/FlyBrains/assets/146943373/848c89cf-6583-4cc7-8b0f-6f51e1367be5)
 
 or alternatively run "visualiser_app.py" if you want to process the video to make it visable without applying the AI
-![image](https://github.com/CharlieAshdown/FlyBrains/assets/146943373/72d9f15f-6f52-4d11-abcf-ba022537e0fe)
+![image](https://github.com/CharlieAshdown/FlyBrains/assets/146943373/20d1ae9f-9a4e-4e8e-a6e1-651fb01acdb9)
+
 
 ### Using flybrains_app.py
 This app is designed to put a nice, easy to control interface between the user and the incredibly ugly code.
