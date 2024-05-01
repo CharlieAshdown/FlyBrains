@@ -3,9 +3,6 @@ from PyQt6.QtWidgets import QFileDialog
 from PyQt6.QtCore import QDir
 import sys
 import os
-import glob
-import torch
-from time import time as t
 
 from video_visualiser import video_visualiser
 
