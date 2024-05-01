@@ -179,9 +179,9 @@ class Ui(QtWidgets.QMainWindow):
             os.mkdir(sim_folder)
         with open(f"{sim_folder}/README.txt", 'w') as f:
             f.write(self.sim_data.toPlainText())
-        #os.system(f"cd {os.curdir}")
-        #os.system(f"python video.py {self.filepath} {int(self.test_number.toPlainText())}"
-                  #f" & python Optogenetic_LEDs.py {self.filepath} {int(self.test_number.toPlainText())} &")
+        os.system(f"cd {os.curdir}")
+        os.system(f"python video.py {self.filepath} {int(self.test_number.toPlainText())}"
+                  f" & python Optogenetic_LEDs.py {self.filepath} {int(self.test_number.toPlainText())} &")
         self.filepath = os.curdir
 
 
