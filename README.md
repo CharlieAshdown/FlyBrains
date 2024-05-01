@@ -60,6 +60,11 @@ All outputted content is saved in the same folder as the video.
 
 ![image](https://github.com/CharlieAshdown/Flybrains/assets/146943373/dae27dd7-03a8-451f-9c3e-067516c611e1)
 
+## Using visualiser_app.py
+Visualiser app allows you to convert the outputted .h264 file from the system into different viewable formats
+You can drag and drop as many files containing videos as you want into the program and by selecting different parts of the system it will process them differently 
+The single channel button if ticked reduces the video to a single colour channel of the user's choice
+The save images button allows the user to save the individual frames of the image as well as processing the video. This makes frame by frame analysis easier.
+The brighten button when ticked utilised otsu's binarisation to brighten the video to be easier to view by users. 
 
-
-
+![image](https://github.com/CharlieAshdown/Flybrains/assets/146943373/622b2d94-b9a9-41c1-986b-938115ad9670)
