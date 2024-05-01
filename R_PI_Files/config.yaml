@@ -1,15 +1,14 @@
-test_number: 11
-camera:
-  collection:
-    exposure: 50000
-    gain: 1
-    delay: 0
 IR_LED:
-  frequency: 100
   duty: 60
-
+  frequency: 100
 Optogenetic_LEDs:
-  initial_delay: 8
+  duty: 100
   flash_length: 5
   frequency: 100
-  duty: 100
+  initial_delay: 8
+camera:
+  delay: 0
+  exposure: 50000
+  gain: 1
+  record_time: 30
+test_number: 11

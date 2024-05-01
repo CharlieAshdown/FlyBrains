@@ -1,19 +1,21 @@
 import RPi.GPIO as GPIO
 import yaml
 import time
+import os
+import sys
 
 from time import sleep
 
 start = time.time()
 try:
-    with open('/media/charlie/FLYBRAINS5/config.yaml', 'r') as file:
+    with open(sys.argv[1], 'r') as file:
         configs = yaml.safe_load(file)
-    root = "/media/charlie/FLYBRAINS5/samples/test_"+str(configs["test_number"])+"/"
+    root = f"{os.path.split(sys.argv[1])[0]}/test_{str(sys.argv[2]).zfill(3)}"
 except:
     with open('config.yaml', 'r') as file:
         configs = yaml.safe_load(file)
-    root = "samples/test_"+str(configs["test_number"])
-    
+    root = "samples/test_" + str(configs["test_number"])
+
 GPIO.setwarnings(False)
 
 GPIO.setmode(GPIO.BCM)
@@ -31,6 +33,7 @@ LED_OFF = time.time()
 Optogenetics_led.ChangeDutyCycle(0)
 GPIO.cleanup()
 
-f = open(root+"_LED_timings.txt", "w")
-f.write(f"LEDs ON: {LED_ON-start} \t LEDs OFF: {LED_OFF-start}")
-f.close()
+file_name = os.path.split(os.path.splitext(root)[0])[-1]
+with open(f"{root}/{file_name}_LED_timings.txt", "w") as f:
+    f.write(f"Video ON: {LED_ON - start} \tVideo OFF: {LED_OFF - start}")
+

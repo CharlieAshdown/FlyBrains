@@ -66,6 +66,7 @@ class Ui(QtWidgets.QMainWindow):
                              save_images=self.save_images_box.isChecked(),
                              channel=self.choose_rgb.currentText().lower())
         self.filepaths = []
+        self.file_label.setText(f"File Names = {str([os.path.split(u)[-1] for u in self.filepaths])}")
 
 
 if __name__ == "__main__":
