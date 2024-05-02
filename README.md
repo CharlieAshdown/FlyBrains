@@ -1,5 +1,8 @@
 Flybrains is a project to capture and analyse iamges of drosophila larvae 
 
+## Physical models
+This system is made up of a physcial enclosure to collect larvae data. These models are available for download here: [models](https://a360.co/4b0MJiT)
+
 ## User Guide
 Firstly we need to install Python:
 download from this link --> [link](https://www.python.org/ftp/python/3.12.3/python-3.12.3-amd64.exe)
